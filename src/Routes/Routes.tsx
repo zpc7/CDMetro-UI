@@ -1,7 +1,8 @@
 import React from 'react';
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu } from "antd";
+import { BarChartOutlined, SolutionOutlined, UserOutlined, ToolOutlined } from '@ant-design/icons'
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
-import Business from '../Pages/business/Business';
+import Test from '../Pages/business/Test';
 import DataMangeListComponent from '../Pages/dataManage/DataMangeList';
 
 import './Routes.less';
@@ -29,7 +30,7 @@ export default class Routes extends React.Component {
             <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
               <Menu.Item key="overView">
                 <Link to='/'>
-                  <Icon type="bar-chart" />
+                  <BarChartOutlined />
                   <span>overView</span>
                 </Link>
               </Menu.Item>
@@ -37,20 +38,20 @@ export default class Routes extends React.Component {
                 key="management"
                 title={
                   <span>
-                    <Icon type="solution" />
+                    <SolutionOutlined />
                     <span>Management</span>
                   </span>
                 }
               >
                 <Menu.Item key="dataManage">
                   <Link to='/manage'>
-                    <Icon type="user" />
+                    <UserOutlined />
                     <span>客运量数据管理</span>
                   </Link>
                 </Menu.Item>
                 <Menu.Item key="config">
                   <Link to='/config'>
-                    <Icon type="tool" />
+                    <ToolOutlined />
                     <span>基础配置</span>
                   </Link>
                 </Menu.Item>
@@ -59,15 +60,15 @@ export default class Routes extends React.Component {
           </Sider>
           <Layout>
             <Header id='header'>
-              <Icon
+              {/* <Icon
                 className="trigger"
                 type={this.state.collapsed ? "menu-unfold" : "menu-fold"}
                 onClick={this.toggle}
-              />
+              /> */}
             </Header>
             <Content id='content'>
               <Switch>
-                <Route exact path="/" component={Business} />
+                <Route exact path="/" component={Test} />
                 <Route exact path="/manage" component={DataMangeListComponent} />
                 <Route key='overView' path='/overView' render={() => <div>overView</div>} />
               </Switch>
