@@ -3,11 +3,11 @@ import { Table, Divider, Tag, DatePicker } from 'antd';
 import http from '@/Utils/http'
 
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
-import './DataMangeList.less'
+import './PassengerAmountManage.less'
 
 const { RangePicker } = DatePicker;
 
-interface IDataMangeListState {
+interface State {
   startTime: string
   endTime: string
   dataSource: Array<any>
@@ -30,26 +30,6 @@ const columns = [
     key: 'line2',
   },
   {
-    title: '线路3',
-    dataIndex: 'line3',
-    key: 'line3',
-  },
-  {
-    title: '线路4',
-    dataIndex: 'line4',
-    key: 'line4',
-  },
-  {
-    title: '线路5',
-    dataIndex: 'line5',
-    key: 'line5',
-  },
-  {
-    title: '线路7',
-    dataIndex: 'line7',
-    key: 'line7',
-  },
-  {
     title: '线路10',
     dataIndex: 'line10',
     key: 'line10',
@@ -68,7 +48,7 @@ const columns = [
 ];
 
 
-export default class DataMangeList extends React.Component<any, IDataMangeListState> {
+export default class PassengerAmountManage extends React.Component<any, State> {
   state = {
     startTime: '',
     endTime: '',
@@ -82,13 +62,9 @@ export default class DataMangeList extends React.Component<any, IDataMangeListSt
     })
   }
   componentDidMount() {
-    http.get('/passengerAmount2')
+    http.get('/passengerAmount')
       .then(res => {
-        debugger
         this.setState({ dataSource: res.data })
-      })
-      .catch(err => {
-        console.log(err)
       })
   }
 
