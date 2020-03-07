@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Divider, Tag, DatePicker } from 'antd';
 import http from '@/Utils/http'
 
-import { RangePickerValue } from 'antd/lib/date-picker/interface';
+import PassengerAmountSearch from '@/Components/passengerAmountSearch/PassengerAmountSearch'
 import './PassengerAmountManage.less'
 
 const { RangePicker } = DatePicker;
@@ -71,8 +71,8 @@ export default class PassengerAmountManage extends React.Component<any, State> {
   render() {
 
     return (
-      <section className='DATA-MANAGE-LIST'>
-        <RangePicker onChange={this.handleDateChange} />
+      <section className='PAGE-passenger-amount-manage'>
+        <PassengerAmountSearch />
         <div className='table-wrapper'>
           <Table rowKey={record => record.id} columns={columns} dataSource={this.state.dataSource} />
         </div>
