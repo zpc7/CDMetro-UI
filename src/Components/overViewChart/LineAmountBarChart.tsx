@@ -31,6 +31,7 @@ export default class LineAmountBarChart extends Component<Props, State> {
       },
 
       legend: {
+        show: false,
         data: ["客运量"]
       },
       xAxis: [
