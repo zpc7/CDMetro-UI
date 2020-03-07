@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "alwaysStrict": true,
-    "pretty": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "skipLibCheck": true,
+    "experimentalDecorators": true,
     "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "esnext",
     "target": "es5",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "allowJs": true,
+    "strict": false,
+    "jsx": "react",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
     "lib": [
       "DOM",
       "ES5",
@@ -16,14 +24,7 @@
       "es2015.iterable",
       "es2015.promise"
     ],
-    "module": "esnext",
-    "noEmit": false,
-    "jsx": "react",
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "types": []
   },
   "exclude": [
     "node_modules"

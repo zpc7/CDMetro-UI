@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, Divider, Tag, DatePicker } from 'antd';
-import axios from 'axios';
-axios.defaults.headers.get['Content-Type'] = 'application/json';
+import http from '@/Utils/http'
 
 import { RangePickerValue } from 'antd/lib/date-picker/interface';
 import './DataMangeList.less'
@@ -58,7 +57,7 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    render: (text:string, record:any) => (
+    render: (text: string, record: any) => (
       <span>
         <a>编辑</a>
         <Divider type="vertical" />
@@ -76,23 +75,24 @@ export default class DataMangeList extends React.Component<any, IDataMangeListSt
     dataSource: []
   };
 
-  handleDateChange = (date: RangePickerValue, dateString:[string, string]) => {
-    this.setState({ 
+  handleDateChange = (date: RangePickerValue, dateString: [string, string]) => {
+    this.setState({
       startTime: dateString[0],
       endTime: dateString[1]
-     })
+    })
   }
-  componentDidMount(){
-    axios.get('http://localhost:8080/list')
-    .then(res => {
-      this.setState({ dataSource: res.data })
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  componentDidMount() {
+    http.get('/passengerAmount2')
+      .then(res => {
+        debugger
+        this.setState({ dataSource: res.data })
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 
-  render(){
+  render() {
 
     return (
       <section className='DATA-MANAGE-LIST'>

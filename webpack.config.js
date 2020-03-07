@@ -17,12 +17,25 @@ module.exports = {
     hot: true,
     compress: true,
     historyApiFallback: true,
-    open: true,
+    open: false,
     host: '0.0.0.0',
-    port: 8000
+    port: 8000,
+    overlay: true,
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:7001/",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/api": ""
+        }
+      }
+    }
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      "@": path.resolve(__dirname, "src")
+    },
+    extensions: [".tsx", ".ts", ".js"]
   },
   module: {
     rules: [
