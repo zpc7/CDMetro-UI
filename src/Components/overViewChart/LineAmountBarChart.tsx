@@ -39,7 +39,7 @@ export default class LineAmountBarChart extends Component<Props, State> {
           axisTick: {
             alignWithLabel: true
           },
-          data: ["1号", "2号", "3号", "4号", "5号", "11月", "12月"]
+          data: ["1号线", "2号线", "3号线", "4号线", "5号线", "7号线", "10号线"]
         }
       ],
       yAxis: [

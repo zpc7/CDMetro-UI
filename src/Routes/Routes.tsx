@@ -8,6 +8,7 @@ import PageOverView from "@/Pages/overView/OverView";
 import PagePassengerAmountManage from '@/Pages/manage/PassengerAmountManage';
 
 import './Routes.less';
+import logoImg from '@/Static/images/logo.png';
 
 const { SubMenu } = Menu;
 const { Header, Sider, Content } = Layout;
@@ -19,7 +20,9 @@ export default class Routes extends React.Component {
       <BrowserRouter>
         <Layout id='app-wrapper'>
           <Sider collapsible>
-            <div className="logo" />
+            <div className="logo">
+              <img src={logoImg} />
+            </div>
             <Menu theme="dark" mode="inline" defaultSelectedKeys={["overView"]}>
               <Menu.Item key="overView">
                 <Link to='/'>

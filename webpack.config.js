@@ -80,6 +80,11 @@ module.exports = {
             loader: 'less-loader',
             options: { javascriptEnabled: true, sourceMap: true }
           }]
+      },
+      {
+        test: /\.(jpg)|(jpeg)|(png)|(bmp)|(svg)$/,
+        loader: "url-loader",
+        options: { limit: 0 }
       }
     ],
   },
