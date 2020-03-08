@@ -19,6 +19,7 @@ interface State {
   visible: boolean;
   searchCondition: SearchCondition;
   dataSource: Array<any>;
+  lineConfig: any
 }
 
 export default class PassengerAmountManage extends React.Component<{}, State> {
@@ -32,17 +33,19 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
       pageSize: 10
     },
     total: 0,
-    dataSource: []
+    dataSource: [],
+    lineConfig: []
   };
 
   async componentDidMount() {
     const res = await http.get("/lineAmount");
+    const lineConfigResponse = await http.get('/line')
     debugger;
-    this.setState({ dataSource: res.list, total: res.total });
+    this.setState({ dataSource: res.list, total: res.total, lineConfig: lineConfigResponse.list });
   }
 
   render() {
-    const { dataSource } = this.state;
+    const { dataSource, lineConfig } = this.state;
     return (
       <section className="PAGE-passenger-amount-manage">
         <PassengerAmountSearch />
@@ -59,7 +62,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
               </div>
             </div>
           </div>
-          <PassengerAmountTable dataSource={dataSource} />
+          <PassengerAmountTable dataSource={dataSource} lineConfig={lineConfig} />
         </div>
       </section>
     );
