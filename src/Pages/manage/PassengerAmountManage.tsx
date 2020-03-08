@@ -1,11 +1,9 @@
 import React from 'react';
-import { Table, Divider, Tag, DatePicker } from 'antd';
+import { Table, Divider } from 'antd';
 import http from '@/Utils/http'
 
 import PassengerAmountSearch from '@/Components/passengerAmountSearch/PassengerAmountSearch'
 import './PassengerAmountManage.less'
-
-const { RangePicker } = DatePicker;
 
 interface State {
   startTime: string
@@ -15,24 +13,54 @@ interface State {
 
 const columns = [
   {
-    title: 'Date',
+    title: '日期',
     dataIndex: 'date',
     key: 'date'
   },
   {
-    title: '线路1',
+    title: '日期类型',
     dataIndex: 'line1',
     key: 'line1',
   },
   {
-    title: '线路2',
+    title: '线路1',
     dataIndex: 'line2',
     key: 'line2',
+  },
+  {
+    title: '线路2',
+    dataIndex: 'line3',
+    key: 'line3',
+  },
+  {
+    title: '线路3',
+    dataIndex: 'line4',
+    key: 'line4',
+  },
+  {
+    title: '线路4',
+    dataIndex: 'line5',
+    key: 'line5',
+  },
+  {
+    title: '线路5',
+    dataIndex: 'line6',
+    key: 'line6',
+  },
+  {
+    title: '线路7',
+    dataIndex: 'line7',
+    key: 'line7',
   },
   {
     title: '线路10',
     dataIndex: 'line10',
     key: 'line10',
+  },
+  {
+    title: '总运量',
+    dataIndex: 'sum',
+    key: 'sum',
   },
   {
     title: 'Action',
@@ -41,7 +69,7 @@ const columns = [
       <span>
         <a>编辑</a>
         <Divider type="vertical" />
-        <a>查看</a>
+        <a>删除</a>
       </span>
     ),
   },
