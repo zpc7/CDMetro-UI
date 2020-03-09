@@ -14,11 +14,9 @@ const instance = Axios.create({
 // });
 instance.interceptors.response.use(
   res => {
-    debugger;
     return Promise.resolve(res.data);
   },
   err => {
-    debugger;
     return Promise.reject(err);
   }
 );

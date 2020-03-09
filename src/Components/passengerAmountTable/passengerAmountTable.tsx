@@ -9,6 +9,12 @@ interface Props {
 interface State {
 
 }
+// 日期类型简写-全称对照表
+const dateTypeCompareBoard = {
+  NWD: '普通工作日',
+  TDBH: '假期前一天',
+  SH: '法定节假日',
+};
 
 const makeColumns = (lineConfig) => {
   const columns = [
@@ -21,6 +27,7 @@ const makeColumns = (lineConfig) => {
       title: '日期类型',
       dataIndex: 'dateType',
       key: 'dateType',
+      render: (text: string) => <span>{dateTypeCompareBoard[text]}</span>
     },
     {
       title: '总运量',
@@ -55,10 +62,14 @@ const formateData = (data, lineConfig) => data.map(item => {
     dateType: item.dateType,
     sum: item.sum
   }
-  item.lineData.forEach(ele => {
-    const lineNumber = _.find(lineConfig, o => o.id === ele.lineId).lineNumber
-    result[`line${lineNumber}`] = ele.lineAmount
-  })
+  lineConfig.forEach(ele => {
+    const lineInfo = _.find(item.lineData, o => o.lineId === ele.id)
+    if (lineInfo) {
+      result[`line${ele.lineNumber}`] = lineInfo.lineAmount
+    } else {
+      result[`line${ele.lineNumber}`] = '-'
+    }
+  });
   return result
 })
 export default class passengerAmountTable extends Component<Props, State> {

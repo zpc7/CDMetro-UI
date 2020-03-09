@@ -5,6 +5,7 @@ import { Button } from "antd";
 import { PlusOutlined, FullscreenOutlined, ReloadOutlined } from "@ant-design/icons";
 import PassengerAmountSearch from "@/Components/passengerAmountSearch/PassengerAmountSearch";
 import PassengerAmountTable from "@/Components/passengerAmountTable/PassengerAmountTable";
+import PassengerAmountModal from "@/Components/passengerAmountModal/PassengerAmountModal";
 import "./PassengerAmountManage.less";
 
 interface SearchCondition {
@@ -24,7 +25,7 @@ interface State {
 
 export default class PassengerAmountManage extends React.Component<{}, State> {
   state = {
-    visible: false,
+    visible: true,
     searchCondition: {
       dateRange: "",
       dateType: "",
@@ -40,12 +41,13 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   async componentDidMount() {
     const res = await http.get("/lineAmount");
     const lineConfigResponse = await http.get('/line')
-    debugger;
     this.setState({ dataSource: res.list, total: res.total, lineConfig: lineConfigResponse.list });
   }
-
+  handleAdd = () => {
+    this.setState({ visible: true })
+  }
   render() {
-    const { dataSource, lineConfig } = this.state;
+    const { dataSource, lineConfig, visible } = this.state;
     return (
       <section className="PAGE-passenger-amount-manage">
         <PassengerAmountSearch />
@@ -53,7 +55,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           <div className="table-toolbar">
             <div className="title">详细数据</div>
             <div className="option">
-              <Button type="primary" icon={<PlusOutlined />}>
+              <Button type="primary" onClick={this.handleAdd} icon={<PlusOutlined />}>
                 新增
               </Button>
               <div className='extra-operation'>
@@ -64,6 +66,11 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           </div>
           <PassengerAmountTable dataSource={dataSource} lineConfig={lineConfig} />
         </div>
+        <PassengerAmountModal
+          loading={false}
+          visible={visible}
+          lineConfig={lineConfig}
+        />
       </section>
     );
   }
