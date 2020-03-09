@@ -46,6 +46,12 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   handleAdd = () => {
     this.setState({ visible: true })
   }
+  handleOk = () => {
+    this.setState({ visible: false })
+  }
+  handleCancel = () => {
+    this.setState({ visible: false })
+  }
   render() {
     const { dataSource, lineConfig, visible } = this.state;
     return (
@@ -70,6 +76,8 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           loading={false}
           visible={visible}
           lineConfig={lineConfig}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
         />
       </section>
     );

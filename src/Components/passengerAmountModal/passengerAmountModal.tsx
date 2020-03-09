@@ -1,73 +1,103 @@
 import React from "react";
-import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider } from "antd";
+import _ from 'lodash'
+import moment from 'moment'
+import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider, Button } from "antd";
 import "./passengerAmountModal.less";
 
 interface Props {
   visible: boolean
   loading: boolean
   lineConfig: any[]
+  onOk: Function
+  onCancel: Function
 }
-export default class PassengerAmountModal extends React.Component<Props> {
-  handleOk = () => {
-    debugger
-    this.setState({ loading: true });
-  };
 
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
+const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) => {
+  const [form] = Form.useForm();
 
-  render() {
-    const { visible, lineConfig } = this.props;
-    return (
-      <div className="COMPONENT-passenger-amount-modal">
-        <Modal
-          visible={visible}
-          title="新增客运数据"
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-        >
-          <Form
-            wrapperCol={{ span: 14 }}
-            onFinish={this.handleOk}
-          >
-            <Form.Item
-              name="date"
-              label="客运日期"
-              rules={[{ type: "object", required: true, message: "请选择日期!" }]}
-            >
-              <DatePicker style={{ width: '80%' }} />
-            </Form.Item>
-            <Form.Item label="日期类型" name="dateType" rules={[{ required: true, message: "请选择日期类型!" }]}>
-              <Select allowClear>
-                <Select.Option value="NWD">普通工作日</Select.Option>
-                <Select.Option value="TDBH">假期前一天 </Select.Option>
-                <Select.Option value="SH">法定节假日</Select.Option>
-              </Select>
-            </Form.Item>
-            <Row>
-              {lineConfig.map(item => (
-                <Col span={12} key={item.id}>
-                  <Form.Item
-                    label={`线路${item.lineNumber}`}
-                    name={`line${item.lineNumber}`}
-                    rules={[{ required: true, message: `请填写线路${item.lineNumber}!` }]}>
-                    <Input />
-                  </Form.Item>
-                </Col>))}
-            </Row>
-            <Divider style={{ margin: '12px 0' }} />
-            <Form.Item
-              label="总运量"
-              name="sum"
-              labelCol={{ offset: 4, span: 4 }}
-              wrapperCol={{ span: 6 }}
-              style={{ margin: '12px 0 0' }}>
-              <Input />
-            </Form.Item>
-          </Form>
-        </Modal>
-      </div>
-    );
+  const handleFinish = (fieldsValue) => {
+    form.resetFields()
+    onOk(fieldsValue)
+    console.log('fieldsValue:', fieldsValue)
   }
+
+  const handleCancel = () => {
+    form.resetFields()
+    onCancel()
+  };
+  // 线路数值变化,自动累加总和sum
+  const handleLineChange = () => {
+    const keys = lineConfig.map(item => `line${item.lineNumber}`)
+    let lineValues = form.getFieldsValue(keys)
+    form.setFieldsValue({
+      sum: _.sum(Object.values(lineValues).map(v => {
+        const newVal = Number(v)
+        return (_.isNaN(newVal) || newVal < 0) ? 0 : newVal
+      })) + '',
+    });
+  }
+
+  return (
+    <Modal
+      visible={visible}
+      title="新增客运数据"
+      width={600}
+      footer={null}
+      wrapClassName='COMPONENT-passenger-amount-modal'
+    >
+      <Form form={form} onFinish={handleFinish} initialValues={{ date: moment() }}>
+        <Form.Item
+          name="date"
+          label="客运日期"
+          wrapperCol={{ span: 6 }}
+          rules={[{ type: "object", required: true, message: "请选择日期!" }]}
+        >
+          <DatePicker style={{ width: '100%' }} />
+        </Form.Item>
+        <Form.Item
+          label="日期类型"
+          name="dateType"
+          wrapperCol={{ span: 7 }}
+          rules={[{ required: true, message: "请选择日期类型!" }]}>
+          <Select allowClear>
+            <Select.Option value="NWD">普通工作日</Select.Option>
+            <Select.Option value="TDBH">假期前一天 </Select.Option>
+            <Select.Option value="SH">法定节假日</Select.Option>
+          </Select>
+        </Form.Item>
+        <Divider style={{ margin: '0 0 24px' }} />
+        <Row gutter={8}>
+          {lineConfig.map(item => (
+            <Col span={12} key={item.id}>
+              <Form.Item
+                label={`${item.lineNumber}号线`}
+                name={`line${item.lineNumber}`}
+                rules={[{
+                  required: true,
+                  message: `请填写${item.lineNumber}号线!`
+                }, {
+                  pattern: /^(([1-9]\d*)|0)(\.\d{1,2})?$/,
+                  message: '请填写不超过2位小数的正数'
+                }]}>
+                <Input onChange={handleLineChange} />
+              </Form.Item>
+            </Col>))}
+        </Row>
+        <Divider style={{ margin: '0' }} />
+        <Form.Item
+          label="总运量"
+          name="sum"
+          labelCol={{ span: 3 }}
+          wrapperCol={{ span: 7 }}
+          style={{ margin: '24px 0 0' }}>
+          <Input />
+        </Form.Item>
+        <div className='operation'>
+          <Button type="primary" htmlType="submit">确认</Button>
+          <Button onClick={handleCancel}>取消</Button>
+        </div>
+      </Form>
+    </Modal>
+  );
 }
+export default PassengerAmountModal
