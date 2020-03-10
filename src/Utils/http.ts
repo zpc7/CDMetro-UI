@@ -1,4 +1,5 @@
 import Axios from "axios";
+import { message } from "antd";
 
 const instance = Axios.create({
   baseURL: "/api",
@@ -17,6 +18,7 @@ instance.interceptors.response.use(
     return Promise.resolve(res.data);
   },
   err => {
+    message.error(err.response.data.message);
     return Promise.reject(err);
   }
 );

@@ -1,5 +1,5 @@
-import React from "react";
-import _ from 'lodash'
+import React, { useState } from "react";
+import _ from 'lodash';
 import moment from 'moment'
 import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider, Button } from "antd";
 import "./passengerAmountModal.less";
@@ -14,11 +14,27 @@ interface Props {
 
 const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) => {
   const [form] = Form.useForm();
+  const [confirmLoading, setconfirmLoading] = useState(false)
 
-  const handleFinish = (fieldsValue) => {
-    form.resetFields()
-    onOk(fieldsValue)
+  const handleFinish = fieldsValue => {
     console.log('fieldsValue:', fieldsValue)
+    const { date, dateType, sum } = fieldsValue
+    const formatedFieldsValue = {
+      sum,
+      dateType,
+      date: date.format('YYYY-MM-DD'),
+      lineData: lineConfig.map(item => ({
+        lineId: item.id,
+        lineAmount: fieldsValue[`line${item.lineNumber}`]
+      }))
+    }
+
+    setconfirmLoading(true)
+    onOk(formatedFieldsValue).then(() => {
+      form.resetFields()
+    }).finally(() => {
+      setconfirmLoading(false)
+    })
   }
 
   const handleCancel = () => {
@@ -32,7 +48,7 @@ const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) 
     form.setFieldsValue({
       sum: _.sum(Object.values(lineValues).map(v => {
         const newVal = Number(v)
-        return (_.isNaN(newVal) || newVal < 0) ? 0 : newVal
+        return (_.isNaN(newVal) || newVal < 0) ? 0 : Number(newVal.toFixed(2))
       })) + '',
     });
   }
@@ -43,6 +59,7 @@ const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) 
       title="新增客运数据"
       width={600}
       footer={null}
+      onCancel={handleCancel}
       wrapClassName='COMPONENT-passenger-amount-modal'
     >
       <Form form={form} onFinish={handleFinish} initialValues={{ date: moment() }}>
@@ -93,7 +110,7 @@ const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) 
           <Input />
         </Form.Item>
         <div className='operation'>
-          <Button type="primary" htmlType="submit">确认</Button>
+          <Button type="primary" htmlType="submit" loading={confirmLoading}>确认</Button>
           <Button onClick={handleCancel}>取消</Button>
         </div>
       </Form>

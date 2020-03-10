@@ -25,7 +25,7 @@ interface State {
 
 export default class PassengerAmountManage extends React.Component<{}, State> {
   state = {
-    visible: true,
+    visible: false,
     searchCondition: {
       dateRange: "",
       dateType: "",
@@ -39,15 +39,19 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   };
 
   async componentDidMount() {
-    const res = await http.get("/lineAmount");
-    const lineConfigResponse = await http.get('/line')
+    const res = await http.get("/dayAmount");
+    const lineConfigResponse = await http.get('/lineConfig')
     this.setState({ dataSource: res.list, total: res.total, lineConfig: lineConfigResponse.list });
   }
   handleAdd = () => {
     this.setState({ visible: true })
   }
-  handleOk = () => {
+  handleOk = async (values) => {
+    console.log('request:', values)
+    await http.post('/dayAmount', values)
     this.setState({ visible: false })
+    const res = await http.get("/dayAmount");
+    this.setState({ dataSource: res.list, total: res.total })
   }
   handleCancel = () => {
     this.setState({ visible: false })
