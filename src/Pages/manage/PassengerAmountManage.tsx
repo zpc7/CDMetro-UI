@@ -9,9 +9,6 @@ import PassengerAmountModal from "@/Components/passengerAmountModal/PassengerAmo
 import "./PassengerAmountManage.less";
 
 interface SearchCondition {
-  dateRange: string;
-  dateType: string;
-  line: string;
   page: number;
   pageSize: number;
 }
@@ -21,21 +18,20 @@ interface State {
   searchCondition: SearchCondition;
   dataSource: Array<any>;
   lineConfig: any
+  editRecord: any
 }
 
 export default class PassengerAmountManage extends React.Component<{}, State> {
   state = {
     visible: false,
     searchCondition: {
-      dateRange: "",
-      dateType: "",
-      line: "",
       page: 1,
       pageSize: 10
     },
     total: 0,
     dataSource: [],
-    lineConfig: []
+    lineConfig: [],
+    editRecord: null
   };
 
   async componentDidMount() {
@@ -46,17 +42,22 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   handleAdd = () => {
     this.setState({ visible: true })
   }
-  handleOk = async (values) => {
+  handleOk = async (values, type, editRecord) => {
     console.log('request:', values)
-    await http.post('/dayAmount', values)
-    this.setState({ visible: false })
+    if (type === 'add') {
+      await http.post('/dayAmount', values)
+    } else {
+      await http.put(`/dayAmount/${editRecord.id}`, values)
+    }
+    this.setState({ visible: false, editRecord: null })
     this.getDataList()
   }
   handleCancel = () => {
-    this.setState({ visible: false })
+    this.setState({ visible: false, editRecord: null })
   }
-  handleEdit = (record) => {
+  handleEdit = (editRecord) => {
     debugger
+    this.setState({ editRecord, visible: true })
   }
   handlePaginationChange = (page, pageSize) => {
     this.getDataList(page, pageSize)
@@ -71,14 +72,14 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.setState({ dataSource: res.list, total: res.total })
   }
   handleSearch = async ({ dateRange, dateType }) => {
-    const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=&${dateRange[1]}` : ''
+    const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=${dateRange[1]}` : ''
     const dateTypeUrl = dateType ? `&dateType=${dateType}` : ''
     const res = await http.get(`/dayAmount?page=1&pageSize=10${dateRangeUrl}${dateTypeUrl}`);
     this.setState({ dataSource: res.list, total: res.total })
   }
 
   render() {
-    const { dataSource, lineConfig, visible, total } = this.state;
+    const { dataSource, lineConfig, visible, total, editRecord } = this.state;
     return (
       <section className="PAGE-passenger-amount-manage">
         <PassengerAmountSearch onSearch={this.handleSearch} />
@@ -107,6 +108,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
         <PassengerAmountModal
           loading={false}
           visible={visible}
+          editRecord={editRecord}
           lineConfig={lineConfig}
           onOk={this.handleOk}
           onCancel={this.handleCancel}

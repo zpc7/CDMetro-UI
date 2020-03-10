@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from 'lodash';
 import moment from 'moment'
 import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider, Button } from "antd";
@@ -10,11 +10,34 @@ interface Props {
   lineConfig: any[]
   onOk: Function
   onCancel: Function
+  editRecord: any
 }
 
-const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) => {
+const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk, loading }) => {
   const [form] = Form.useForm();
   const [confirmLoading, setconfirmLoading] = useState(false)
+  const modalType = _.isEmpty(editRecord) ? 'add' : 'edit'
+  const modalTitle = modalType === 'edit' ? '编辑' : '新增';
+
+  useEffect(() => {
+    console.log('editRecord:', editRecord)
+    if (!_.isEmpty(editRecord)) {
+      form.setFields([{
+        name: 'sum',
+        value: editRecord.sum
+      }, {
+        name: 'date',
+        value: moment(editRecord.date)
+      }, {
+        name: 'dateType',
+        value: editRecord.dateType
+      }])
+      lineConfig.forEach(ele => {
+        const key = `line${ele.lineNumber}`
+        form.setFieldsValue({ [key]: editRecord[key] })
+      });
+    }
+  }, [editRecord])
 
   const handleFinish = fieldsValue => {
     console.log('fieldsValue:', fieldsValue)
@@ -30,7 +53,7 @@ const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) 
     }
 
     setconfirmLoading(true)
-    onOk(formatedFieldsValue).then(() => {
+    onOk(formatedFieldsValue, modalType, editRecord).then(() => {
       form.resetFields()
     }).finally(() => {
       setconfirmLoading(false)
@@ -56,9 +79,11 @@ const PassengerAmountModal = ({ visible, loading, lineConfig, onCancel, onOk }) 
   return (
     <Modal
       visible={visible}
-      title="新增客运数据"
+      title={`${modalTitle}客运数据`}
       width={600}
       footer={null}
+      forceRender
+      destroyOnClose={false}
       onCancel={handleCancel}
       wrapClassName='COMPONENT-passenger-amount-modal'
     >
