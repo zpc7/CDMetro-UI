@@ -1,22 +1,26 @@
 import React, { Component } from 'react'
-import { Table, Divider } from 'antd';
+import { Table, Divider, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import _ from 'lodash'
 
-interface Props {
-  dataSource: any[]
-  lineConfig: any
-}
-interface State {
-
-}
 // 日期类型简写-全称对照表
 const dateTypeCompareBoard = {
   NWD: '普通工作日',
   TDBH: '假期前一天',
   SH: '法定节假日',
 };
-
-const makeColumns = (lineConfig) => {
+const showDeleteConfirm = (date, id, onDelete) => {
+  Modal.confirm({
+    title: `确定删除日期 ${date} 的客运量数据?`,
+    icon: <ExclamationCircleOutlined />,
+    okType: 'danger',
+    onOk() {
+      console.log('OK');
+      onDelete(id)
+    }
+  });
+}
+const makeColumns = ({ lineConfig, onEdit, onDelete }) => {
   const columns = [
     {
       title: '日期',
@@ -39,9 +43,9 @@ const makeColumns = (lineConfig) => {
       key: 'action',
       render: (text: string, record: any) => (
         <span>
-          <a>编辑</a>
+          <a onClick={() => onEdit(record)}>编辑</a>
           <Divider type="vertical" />
-          <a>删除</a>
+          <a onClick={() => showDeleteConfirm(record.date, record.id, onDelete)}>删除</a>
         </span>
       ),
     },
@@ -72,17 +76,24 @@ const formateData = (data, lineConfig) => data.map(item => {
   });
   return result
 })
-export default class passengerAmountTable extends Component<Props, State> {
-  state = {}
-  render() {
-    const { dataSource, lineConfig } = this.props;
-    const columns = makeColumns(lineConfig)
-    const data = formateData(dataSource, lineConfig)
-    debugger
-    return (
-      <div>
-        <Table rowKey={record => record.id} columns={columns} dataSource={data} />
-      </div>
-    )
-  }
+
+const passengerAmountTable = props => {
+  const { dataSource, lineConfig, onPaginationChange,total } = props;
+  const columns = makeColumns(props)
+  const data = formateData(dataSource, lineConfig)
+  return (
+    <div className="COMPONENT-passenger-amount-table">
+      <Table
+        rowKey={record => record.id}
+        columns={columns}
+        dataSource={data}
+        pagination={{
+          total,
+          onChange: onPaginationChange
+        }}
+      />
+    </div>
+  )
 }
+
+export default passengerAmountTable
