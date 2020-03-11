@@ -14,7 +14,7 @@ const makeOption = (lineConfig, dayAmount) => {
     smooth: true,
     data: dayAmount.map(item => {
       const lineInfo = _.find(item.lineData, v => v.lineId === line.id)
-      return lineInfo ? Number(lineInfo.lineAmount) : 0
+      return lineInfo ? Number(lineInfo.lineAmount) : '-'
     })
   }))
   const sumSeries = {
@@ -41,6 +41,10 @@ const makeOption = (lineConfig, dayAmount) => {
     legend: {
       data: [...lineLegend, '总运量']
     },
+    dataZoom: [
+      { show: true },
+      { type: 'inside' }
+    ],
     xAxis: [
       {
         type: 'category',

@@ -1,4 +1,5 @@
 import React from "react";
+import _ from 'lodash'
 
 import http from "@/Utils/http";
 import { Button, message } from "antd";
@@ -18,7 +19,8 @@ interface State {
   searchCondition: SearchCondition;
   dataSource: Array<any>;
   lineConfig: any
-  editRecord: any
+  editRecord: any,
+  lastestDate: string
 }
 
 export default class PassengerAmountManage extends React.Component<{}, State> {
@@ -31,7 +33,8 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     total: 0,
     dataSource: [],
     lineConfig: [],
-    editRecord: null
+    editRecord: null,
+    lastestDate: ''
   };
 
   async componentDidMount() {
@@ -70,7 +73,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   }
   getDataList = async (page = 1, pageSize = 10) => {
     const res = await http.get(`/dayAmount?page=${page}&pageSize=${pageSize}`);
-    this.setState({ dataSource: res.list, total: res.total })
+    this.setState({ dataSource: res.list, total: res.total, lastestDate: _.get(res, 'list[0].date', '') })
     message.success('列表更新成功')
   }
   handleSearch = async ({ dateRange, dateType }) => {
@@ -82,7 +85,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   }
 
   render() {
-    const { dataSource, lineConfig, visible, total, editRecord } = this.state;
+    const { dataSource, lineConfig, visible, total, editRecord, lastestDate } = this.state;
     return (
       <section className="PAGE-passenger-amount-manage">
         <PassengerAmountSearch onSearch={this.handleSearch} />
@@ -115,6 +118,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           lineConfig={lineConfig}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          lastestDate={lastestDate}
         />
       </section>
     );
