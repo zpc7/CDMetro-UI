@@ -11,6 +11,7 @@ const makeOption = (lineConfig, dayAmount) => {
   const lineSeries = lineConfig.map(line => ({
     name: `${line.lineNumber}号线`,
     type: 'line',
+    smooth: true,
     data: dayAmount.map(item => {
       const lineInfo = _.find(item.lineData, v => v.lineId === line.id)
       return lineInfo ? Number(lineInfo.lineAmount) : 0

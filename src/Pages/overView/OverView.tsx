@@ -20,7 +20,7 @@ export default class OverView extends Component<Props, State> {
   }
   async componentDidMount() {
     const lineConfigResponse = await http.get('/lineConfig')
-    const res = await http.get(`/dayAmount`);
+    const res = await http.get(`/analysis`);
     this.setState({ dayAmountList: res.list })
     this.setState({ lineConfigList: lineConfigResponse.list });
   }
