@@ -46,8 +46,10 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     console.log('request:', values)
     if (type === 'add') {
       await http.post('/dayAmount', values)
+      message.success('新增成功')
     } else {
       await http.put(`/dayAmount/${editRecord.id}`, values)
+      message.success('编辑成功')
     }
     this.setState({ visible: false, editRecord: null })
     this.getDataList()
@@ -56,7 +58,6 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.setState({ visible: false, editRecord: null })
   }
   handleEdit = (editRecord) => {
-    debugger
     this.setState({ editRecord, visible: true })
   }
   handlePaginationChange = (page, pageSize) => {
@@ -70,11 +71,13 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   getDataList = async (page = 1, pageSize = 10) => {
     const res = await http.get(`/dayAmount?page=${page}&pageSize=${pageSize}`);
     this.setState({ dataSource: res.list, total: res.total })
+    message.success('列表更新成功')
   }
   handleSearch = async ({ dateRange, dateType }) => {
     const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=${dateRange[1]}` : ''
     const dateTypeUrl = dateType ? `&dateType=${dateType}` : ''
     const res = await http.get(`/dayAmount?page=1&pageSize=10${dateRangeUrl}${dateTypeUrl}`);
+    message.success('查询成功')
     this.setState({ dataSource: res.list, total: res.total })
   }
 

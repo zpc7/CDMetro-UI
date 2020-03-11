@@ -71,8 +71,8 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
     form.setFieldsValue({
       sum: _.sum(Object.values(lineValues).map(v => {
         const newVal = Number(v)
-        return (_.isNaN(newVal) || newVal < 0) ? 0 : Number(newVal.toFixed(2))
-      })) + '',
+        return (_.isNaN(newVal) || newVal < 0) ? 0 : newVal
+      })).toFixed(2),
     });
   }
 
