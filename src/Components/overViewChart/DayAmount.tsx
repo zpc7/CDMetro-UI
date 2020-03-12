@@ -21,7 +21,18 @@ const makeOption = (lineConfig, dayAmount) => {
     name: '总运量',
     type: 'bar',
     yAxisIndex: 1,
-    data: dayAmount.map(item => Number(item.sum))
+    data: dayAmount.map(item => Number(item.sum)),
+    markPoint: {
+      data: [
+        { type: 'max', name: '最大值' },
+        { type: 'min', name: '最小值' }
+      ]
+    },
+    markLine: {
+      data: [
+        { type: 'average', name: '平均值' }
+      ]
+    }
   }
   return {
     color: ['#BFBFBF', ...lineColor],
@@ -62,9 +73,6 @@ const makeOption = (lineConfig, dayAmount) => {
       {
         type: 'value',
         name: '总运量(万乘次)',
-        // axisLabel: {
-        //   formatter: '{value} °C'
-        // }
       }
     ],
     series: [...lineSeries, sumSeries]
@@ -72,7 +80,6 @@ const makeOption = (lineConfig, dayAmount) => {
 }
 const DayAmountChart = ({ lineConfigList, dayAmountList }) => {
   const option = makeOption(lineConfigList, dayAmountList)
-  console.log(option)
   return <div className="COMPONENT-day-amount-chart">
     <ReactEcharts option={option} />
   </div>;
