@@ -1,88 +1,67 @@
-import React, { Component } from "react";
+import React from "react";
+import _ from 'lodash'
 import "./LineAmountBarChart.less";
 
 import ReactEcharts from 'echarts-for-react';
 
-interface Props { }
-interface State { }
-
-const colors = ["#171695", "#E8644D", "#D93983", "#4C9B48", "#B927B6", "#66CFE5", "#0350B7"];
-const options = {
-  // color: colors,
-  title: {
-    text: "3月6日 总客运量 304.79万乘次",
-    left: "center"
-  },
-  tooltip: {
-    trigger: "axis",
-    axisPointer: {
-      type: "cross"
-    }
-  },
-
-  legend: {
-    show: false,
-    data: ["客运量"]
-  },
-  xAxis: [
-    {
-      type: "category",
-      axisTick: {
-        alignWithLabel: true
-      },
-      data: ["1号线", "2号线", "3号线", "4号线", "5号线", "7号线", "10号线"]
-    }
-  ],
-  yAxis: [
-    {
-      type: "value",
-      name: "万乘次",
-      axisLine: {
-        lineStyle: {
-          color: colors[0]
-        }
-      },
-      // minInterval: 10,
-      splitNumber: 3,
-      axisLabel: {
-        formatter: "{value}"
+const makeOption = (data, lineConfig) => {
+  const color = lineConfig.map(i => i.lineColor);
+  const xAxisData = lineConfig.map(i => `${i.lineNumber}号线`)
+  const seriesData = lineConfig.map(line => {
+    const info = _.find(data.lineData, v => v.lineId === line.id)
+    return info ? {
+      itemStyle: { color: line.lineColor },
+      value: info.lineAmount
+    } : 0
+  })
+  return {
+    color,
+    title: {
+      text: `总客运量 ${data.sum}万乘次`,
+      left: "center"
+    },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "cross"
       }
-    }
-  ],
-  series: [
-    {
-      name: "客运量",
-      type: "bar",
-      label: {
-        show: true,
-        position: "top"
-      },
-      barWidth: 50,
-      data: [
-        { itemStyle: { color: "#171695" }, value: 32.2 },
-        { itemStyle: { color: "#E8644D" }, value: 26.9 },
-        { itemStyle: { color: "#D93983" }, value: 25.89 },
-        { itemStyle: { color: "#4C9B48" }, value: 21.83 },
-        { itemStyle: { color: "#B927B6" }, value: 12.62 },
-        { itemStyle: { color: "#66CFE5" }, value: 27.36 },
-        { itemStyle: { color: "#0350B7" }, value: 4.22 }
-      ]
-    }
-  ]
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisTick: {
+          alignWithLabel: true
+        },
+        data: xAxisData
+      }
+    ],
+    yAxis: [
+      {
+        type: "value",
+        name: "万乘次",
+      }
+    ],
+    series: [
+      {
+        name: "客运量",
+        type: "bar",
+        label: {
+          show: true,
+          position: "top"
+        },
+        barWidth: 50,
+        data: seriesData
+      }
+    ]
+  }
 }
 // 柱状图
-export default class LineAmountBarChart extends Component<Props, State> {
-  state = {};
-  componentDidMount() {
+const LineAmountBarChart = ({ data, lineConfigList }) => {
+  const option = makeOption(data, lineConfigList)
+  const showLoading = _.isEmpty(data) ? true : false
+  return <div className="COMPONENT-line-amount-bar-chart">
+    <ReactEcharts option={option} showLoading={showLoading} />
+  </div>;
 
-    // const myChart = echarts.init(document.getElementById("LineAmountBarChart"));
-
-    // myChart.setOption();
-  }
-
-  render() {
-    return <div id="LineAmountBarChart">
-      <ReactEcharts option={options} />
-    </div>;
-  }
 }
+export default LineAmountBarChart
