@@ -23,14 +23,26 @@ const makeOption = (lineConfig, dayAmount) => {
     yAxisIndex: 1,
     data: dayAmount.map(item => Number(item.sum)),
     markPoint: {
+      symbolSize: 70,
+      itemStyle: {
+        color: '#C23531'
+      },
       data: [
         { type: 'max', name: '最大值' },
         { type: 'min', name: '最小值' }
       ]
     },
     markLine: {
+      itemStyle: {
+        color: '#2F4554'
+      },
       data: [
-        { type: 'average', name: '平均值' }
+        {
+          type: 'average', name: '平均值', label: {
+            color: 'red',
+            fontSize: 20
+          }
+        }
       ]
     }
   }
@@ -81,7 +93,7 @@ const makeOption = (lineConfig, dayAmount) => {
 const DayAmountChart = ({ lineConfigList, dayAmountList }) => {
   const option = makeOption(lineConfigList, dayAmountList)
   return <div className="COMPONENT-day-amount-chart">
-    <ReactEcharts option={option} />
+    <ReactEcharts option={option} style={{ height: '450px' }} />
   </div>;
 
 }
