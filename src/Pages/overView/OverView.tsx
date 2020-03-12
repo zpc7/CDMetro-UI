@@ -29,8 +29,14 @@ export default class OverView extends Component<{}, State> {
   state = {
     dayAmountList: [],
     lineConfigList: [],
-    lastestData: {}
-  } as State
+    lastestData: {
+      id: 0,
+      date: '',
+      dateType: '',
+      lineData: [],
+      sum: ''
+    }
+  }
 
   async componentDidMount() {
     const lineConfigResponse = await http.get('/lineConfig')
