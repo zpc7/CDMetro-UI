@@ -25,8 +25,8 @@ const DateGroupPicker = ({ getDataByDateRange }) => {
   }
   const handleRangePickerChange = (dates) => {
     setRangePickerValue(dates)
-    getDataByDateRange(dates)
     if (dates) {
+      getDataByDateRange(dates)
       const key = _.findKey(dateRangeCompareBoard, item => item[0].isSame(dates[0], 'day') && item[1].isSame(dates[1], 'day'));
       if (key) {
         setRadioGroupValue(key)
