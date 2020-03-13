@@ -72,7 +72,7 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
   // 线路数值变化,自动累加总和sum
   const handleLineChange = () => {
     const keys = lineConfig.map(item => `line${item.lineNumber}`)
-    let lineValues = form.getFieldsValue(keys)
+    const lineValues = form.getFieldsValue(keys)
     form.setFieldsValue({
       sum: _.sum(Object.values(lineValues).map(v => {
         const newVal = Number(v)

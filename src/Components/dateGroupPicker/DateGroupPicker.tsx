@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import { Radio, DatePicker } from 'antd'
@@ -46,7 +46,7 @@ const DateGroupPicker = ({ getDataByDateRange }) => {
       <RangePicker
         className='range-picker'
         onChange={handleRangePickerChange}
-        value={rangePickerValue as RangeValue<any>}
+        value={rangePickerValue as RangeValue<Moment>}
       />
     </div>
   )

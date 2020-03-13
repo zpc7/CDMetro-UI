@@ -60,7 +60,7 @@ const makeColumns = ({ lineConfig, onEdit, onDelete }) => {
   return columns
 }
 const formateData = (data, lineConfig) => data.map(item => {
-  let result = {
+  const result = {
     id: item.id,
     date: item.date,
     dateType: item.dateType,

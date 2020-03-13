@@ -10,16 +10,16 @@ import PassengerAmountModal from '@/Components/passengerAmountModal/PassengerAmo
 import './PassengerAmountManage.less'
 
 interface SearchCondition {
-  page: number;
-  pageSize: number;
+  page: number
+  pageSize: number
 }
 interface State {
-  total: number;
-  visible: boolean;
-  searchCondition: SearchCondition;
-  dataSource: Array<any>;
+  total: number
+  visible: boolean
+  searchCondition: SearchCondition
+  dataSource: Array<any>
   lineConfig: any
-  editRecord: any,
+  editRecord: any
   lastestDate: string
 }
 

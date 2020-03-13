@@ -1,7 +1,16 @@
 import React, { useState, useCallback, memo, useMemo } from 'react'
 
-const ChildWithMemo = memo(({ profile, updateName }) => {
+interface Profile {
+  name: string
+  age: number
+}
+interface Props {
+  profile: Profile
+  updateName: Function
+}
+const ChildWithMemo: React.FunctionComponent<Props> = memo(({ profile, updateName }: Props) => {
   console.log('MemoChild Render')
+
   return <div>
     <h3>ChildWithMemo</h3>
     <p>This is name from parents: {profile.name} </p>
@@ -13,6 +22,7 @@ const ChildWithMemo = memo(({ profile, updateName }) => {
 export default function Parents() {
   const [count, setCount] = useState(1)
   const [name, setName] = useState('Init name')
+
   console.log('Parents Render')
 
   const handleClick = () => setCount(count + 1)

@@ -21,7 +21,7 @@ interface dayAmountData {
   id: number
   date: string
   dateType: string
-  lineData: lineData[],
+  lineData: lineData[]
   sum: string
 }
 
