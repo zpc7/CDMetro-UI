@@ -1,9 +1,9 @@
-import moment from "moment";
-import { Row, Col, Form, Select, DatePicker, Button } from "antd";
-import React, { Component } from "react";
-import "./PassengerAmountSearch.less";
+import moment from 'moment'
+import { Row, Col, Form, Select, DatePicker, Button } from 'antd'
+import React from 'react'
+import './PassengerAmountSearch.less'
 
-const { RangePicker } = DatePicker;
+const { RangePicker } = DatePicker
 
 const PassengerAmountSearch = ({ onSearch }) => {
   const onFinish = ({ dateRange, dateType }) => {
@@ -11,7 +11,7 @@ const PassengerAmountSearch = ({ onSearch }) => {
       dateType,
       dateRange: dateRange ? dateRange.map(i => i.format('YYYY-MM-DD')) : ''
     })
-  };
+  }
   return (
     <div className="COMPONENT-passenger-amount-search">
       <Form onFinish={onFinish} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
@@ -21,8 +21,8 @@ const PassengerAmountSearch = ({ onSearch }) => {
               <RangePicker
                 ranges={{
                   今日: [moment(), moment()],
-                  本周: [moment().startOf("week"), moment().endOf("week")],
-                  本月: [moment().startOf("month"), moment().endOf("month")]
+                  本周: [moment().startOf('week'), moment().endOf('week')],
+                  本月: [moment().startOf('month'), moment().endOf('month')]
                 }}
                 style={{ width: '90%' }}
               />
@@ -45,6 +45,6 @@ const PassengerAmountSearch = ({ onSearch }) => {
         </Row>
       </Form>
     </div>
-  );
+  )
 }
 export default PassengerAmountSearch

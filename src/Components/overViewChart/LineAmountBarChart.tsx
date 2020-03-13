@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 import _ from 'lodash'
-import "./LineAmountBarChart.less";
+import './LineAmountBarChart.less'
 
-import ReactEcharts from 'echarts-for-react';
+import ReactEcharts from 'echarts-for-react'
 
 const makeOption = (data, lineConfig) => {
-  const color = lineConfig.map(i => i.lineColor);
+  const color = lineConfig.map(i => i.lineColor)
   const xAxisData = lineConfig.map(i => `${i.lineNumber}号线`)
   const seriesData = lineConfig.map(line => {
     const info = _.find(data.lineData, v => v.lineId === line.id)
@@ -18,17 +18,17 @@ const makeOption = (data, lineConfig) => {
     color,
     title: {
       text: `总客运量 ${data.sum}万乘次`,
-      left: "center"
+      left: 'center'
     },
     tooltip: {
-      trigger: "axis",
+      trigger: 'axis',
       axisPointer: {
-        type: "cross"
+        type: 'cross'
       }
     },
     xAxis: [
       {
-        type: "category",
+        type: 'category',
         axisTick: {
           alignWithLabel: true
         },
@@ -37,17 +37,17 @@ const makeOption = (data, lineConfig) => {
     ],
     yAxis: [
       {
-        type: "value",
-        name: "万乘次",
+        type: 'value',
+        name: '万乘次',
       }
     ],
     series: [
       {
-        name: "客运量",
-        type: "bar",
+        name: '客运量',
+        type: 'bar',
         label: {
           show: true,
-          position: "top"
+          position: 'top'
         },
         barWidth: 50,
         data: seriesData
@@ -61,7 +61,7 @@ const LineAmountBarChart = ({ data, lineConfigList }) => {
   const showLoading = _.isEmpty(data) ? true : false
   return <div className="COMPONENT-line-amount-bar-chart">
     <ReactEcharts option={option} showLoading={showLoading} />
-  </div>;
+  </div>
 
 }
 export default LineAmountBarChart

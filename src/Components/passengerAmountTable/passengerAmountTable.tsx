@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { Table, Divider, Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import React from 'react'
+import { Table, Divider, Modal } from 'antd'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 import _ from 'lodash'
 
 // 日期类型简写-全称对照表
@@ -8,17 +8,17 @@ const dateTypeCompareBoard = {
   NWD: '普通工作日',
   TDBH: '假期前一天',
   SH: '法定节假日',
-};
+}
 const showDeleteConfirm = (date, id, onDelete) => {
   Modal.confirm({
     title: `确定删除日期 ${date} 的客运量数据?`,
     icon: <ExclamationCircleOutlined />,
     okType: 'danger',
     onOk() {
-      console.log('OK');
+      console.log('OK')
       onDelete(id)
     }
-  });
+  })
 }
 const makeColumns = ({ lineConfig, onEdit, onDelete }) => {
   const columns = [
@@ -49,14 +49,14 @@ const makeColumns = ({ lineConfig, onEdit, onDelete }) => {
         </span>
       ),
     },
-  ];
+  ]
   lineConfig.forEach((element, index) => {
     columns.splice(2 + index, 0, {
       title: `${element.lineNumber}号线`,
       dataIndex: `line${element.lineNumber}`,
       key: `line${element.lineNumber}`
     })
-  });
+  })
   return columns
 }
 const formateData = (data, lineConfig) => data.map(item => {
@@ -73,12 +73,12 @@ const formateData = (data, lineConfig) => data.map(item => {
     } else {
       result[`line${ele.lineNumber}`] = '-'
     }
-  });
+  })
   return result
 })
 
 const passengerAmountTable = props => {
-  const { dataSource, lineConfig, onPaginationChange,total } = props;
+  const { dataSource, lineConfig, onPaginationChange, total } = props
   const columns = makeColumns(props)
   const data = formateData(dataSource, lineConfig)
   return (

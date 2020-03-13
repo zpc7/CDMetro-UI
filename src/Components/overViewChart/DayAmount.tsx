@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import "./DayAmount.less";
+import React from 'react'
+import './DayAmount.less'
 import _ from 'lodash'
 
-import ReactEcharts from 'echarts-for-react';
+import ReactEcharts from 'echarts-for-react'
 
 const makeOption = (lineConfig, dayAmount) => {
   const lineColor = lineConfig.map(item => item.lineColor)
@@ -94,7 +94,7 @@ const DayAmountChart = ({ lineConfigList, dayAmountList }) => {
   const option = makeOption(lineConfigList, dayAmountList)
   return <div className="COMPONENT-day-amount-chart">
     <ReactEcharts option={option} style={{ height: '450px' }} />
-  </div>;
+  </div>
 
 }
 export default DayAmountChart

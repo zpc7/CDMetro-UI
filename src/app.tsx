@@ -1,11 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { ConfigProvider } from 'antd';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { ConfigProvider } from 'antd'
 
-import './app.less';
-import 'moment/locale/zh-cn';
+import './app.less'
+import 'moment/locale/zh-cn'
 import Routes from '@/Routes/Routes'
-import zhCN from 'antd/es/locale/zh_CN';
+import zhCN from 'antd/es/locale/zh_CN'
 
 class App extends React.Component<{}, any> {
   state = {
@@ -21,4 +21,4 @@ class App extends React.Component<{}, any> {
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'))

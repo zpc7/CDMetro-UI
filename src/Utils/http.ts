@@ -1,10 +1,10 @@
-import Axios from "axios";
-import { message } from "antd";
+import Axios from 'axios'
+import { message } from 'antd'
 
 const instance = Axios.create({
-  baseURL: "/api",
+  baseURL: '/api',
   timeout: 10000
-});
+})
 
 // instance.interceptors.request.use(config => {
 //   const token = window.localStorage.getItem("token");
@@ -15,12 +15,12 @@ const instance = Axios.create({
 // });
 instance.interceptors.response.use(
   res => {
-    return Promise.resolve(res.data);
+    return Promise.resolve(res.data)
   },
   err => {
-    message.error(err.response.data.message);
-    return Promise.reject(err);
+    message.error(err.response.data.message)
+    return Promise.reject(err)
   }
-);
+)
 
-export default instance;
+export default instance

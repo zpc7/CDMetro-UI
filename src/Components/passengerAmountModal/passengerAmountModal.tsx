@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import _ from 'lodash';
+import React, { useState, useEffect } from 'react'
+import _ from 'lodash'
 import moment from 'moment'
-import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider, Button } from "antd";
-import "./passengerAmountModal.less";
+import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider, Button } from 'antd'
+import './passengerAmountModal.less'
 
 interface Props {
   visible: boolean
@@ -15,10 +15,10 @@ interface Props {
 }
 
 const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk, loading, lastestDate }) => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
   const [confirmLoading, setconfirmLoading] = useState(false)
   const modalType = _.isEmpty(editRecord) ? 'add' : 'edit'
-  const modalTitle = modalType === 'edit' ? '编辑' : '新增';
+  const modalTitle = modalType === 'edit' ? '编辑' : '新增'
 
   useEffect(() => {
     console.log('editRecord:', editRecord)
@@ -36,7 +36,7 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
       lineConfig.forEach(ele => {
         const key = `line${ele.lineNumber}`
         form.setFieldsValue({ [key]: editRecord[key] })
-      });
+      })
     }
   }, [editRecord])
 
@@ -68,7 +68,7 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
   const handleCancel = () => {
     form.resetFields()
     onCancel()
-  };
+  }
   // 线路数值变化,自动累加总和sum
   const handleLineChange = () => {
     const keys = lineConfig.map(item => `line${item.lineNumber}`)
@@ -78,7 +78,7 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
         const newVal = Number(v)
         return (_.isNaN(newVal) || newVal < 0) ? 0 : newVal
       })).toFixed(2),
-    });
+    })
   }
 
   return (
@@ -97,7 +97,7 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
           name="date"
           label="客运日期"
           wrapperCol={{ span: 6 }}
-          rules={[{ type: "object", required: true, message: "请选择日期!" }]}
+          rules={[{ type: 'object', required: true, message: '请选择日期!' }]}
         >
           <DatePicker style={{ width: '100%' }} />
         </Form.Item>
@@ -105,7 +105,7 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
           label="日期类型"
           name="dateType"
           wrapperCol={{ span: 7 }}
-          rules={[{ required: true, message: "请选择日期类型!" }]}>
+          rules={[{ required: true, message: '请选择日期类型!' }]}>
           <Select allowClear>
             <Select.Option value="NWD">普通工作日</Select.Option>
             <Select.Option value="TDBH">假期前一天 </Select.Option>
@@ -145,6 +145,6 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
         </div>
       </Form>
     </Modal>
-  );
+  )
 }
 export default PassengerAmountModal

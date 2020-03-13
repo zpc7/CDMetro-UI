@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react'
 import _ from 'lodash'
 
-import http from "@/Utils/http";
-import { Button, message } from "antd";
-import { PlusOutlined, FullscreenOutlined, ReloadOutlined } from "@ant-design/icons";
-import PassengerAmountSearch from "@/Components/passengerAmountSearch/PassengerAmountSearch";
-import PassengerAmountTable from "@/Components/passengerAmountTable/PassengerAmountTable";
-import PassengerAmountModal from "@/Components/passengerAmountModal/PassengerAmountModal";
-import "./PassengerAmountManage.less";
+import http from '@/Utils/http'
+import { Button, message } from 'antd'
+import { PlusOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons'
+import PassengerAmountSearch from '@/Components/passengerAmountSearch/PassengerAmountSearch'
+import PassengerAmountTable from '@/Components/passengerAmountTable/PassengerAmountTable'
+import PassengerAmountModal from '@/Components/passengerAmountModal/PassengerAmountModal'
+import './PassengerAmountManage.less'
 
 interface SearchCondition {
   page: number;
@@ -39,7 +39,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
 
   async componentDidMount() {
     const lineConfigResponse = await http.get('/lineConfig')
-    this.setState({ lineConfig: lineConfigResponse.list });
+    this.setState({ lineConfig: lineConfigResponse.list })
     this.getDataList()
   }
   handleAdd = () => {
@@ -72,20 +72,20 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.getDataList()
   }
   getDataList = async (page = 1, pageSize = 10) => {
-    const res = await http.get(`/dayAmount?page=${page}&pageSize=${pageSize}`);
+    const res = await http.get(`/dayAmount?page=${page}&pageSize=${pageSize}`)
     this.setState({ dataSource: res.list, total: res.total, lastestDate: _.get(res, 'list[0].date', '') })
     message.success('列表更新成功')
   }
   handleSearch = async ({ dateRange, dateType }) => {
     const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=${dateRange[1]}` : ''
     const dateTypeUrl = dateType ? `&dateType=${dateType}` : ''
-    const res = await http.get(`/dayAmount?page=1&pageSize=10${dateRangeUrl}${dateTypeUrl}`);
+    const res = await http.get(`/dayAmount?page=1&pageSize=10${dateRangeUrl}${dateTypeUrl}`)
     message.success('查询成功')
     this.setState({ dataSource: res.list, total: res.total })
   }
 
   render() {
-    const { dataSource, lineConfig, visible, total, editRecord, lastestDate } = this.state;
+    const { dataSource, lineConfig, visible, total, editRecord, lastestDate } = this.state
     return (
       <section className="PAGE-passenger-amount-manage">
         <PassengerAmountSearch onSearch={this.handleSearch} />
@@ -121,6 +121,6 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           lastestDate={lastestDate}
         />
       </section>
-    );
+    )
   }
 }

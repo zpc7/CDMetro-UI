@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 import _ from 'lodash'
-import ReactEcharts from 'echarts-for-react';
-import "./LineAmountPieChart.less";
+import ReactEcharts from 'echarts-for-react'
+import './LineAmountPieChart.less'
 
 const makeOption = (data, lineConfig) => {
-  const color = lineConfig.map(i => i.lineColor);
+  const color = lineConfig.map(i => i.lineColor)
   const legendData = lineConfig.map(i => `${i.lineNumber}号线`)
   const seriesData = lineConfig.map(line => {
     const info = _.find(data.lineData, v => v.lineId === line.id)
@@ -60,7 +60,7 @@ const LineAmountChart = ({ data, lineConfigList }) => {
   const showLoading = _.isEmpty(data) ? true : false
   return <div className="COMPONENT-line-amount-bar-chart">
     <ReactEcharts option={option} showLoading={showLoading} />
-  </div>;
+  </div>
 
 }
 export default LineAmountChart

@@ -1,17 +1,17 @@
-import React from 'react';
-import { Layout, Menu } from "antd";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import React from 'react'
+import { Layout, Menu } from 'antd'
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
 import { BarChartOutlined, SolutionOutlined, UserOutlined, ToolOutlined } from '@ant-design/icons'
 
-import PageTest from '@/Pages/demoTest/DemoTest';
-import PageOverView from "@/Pages/overView/OverView";
-import PagePassengerAmountManage from '@/Pages/manage/PassengerAmountManage';
+import PageTest from '@/Pages/demoTest/DemoTest'
+import PageOverView from '@/Pages/overView/OverView'
+import PagePassengerAmountManage from '@/Pages/manage/PassengerAmountManage'
 
-import './Routes.less';
-import logoImg from '@/Static/images/logo.png';
+import './Routes.less'
+import logoImg from '@/Static/images/logo.png'
 
-const { SubMenu } = Menu;
-const { Header, Sider, Content } = Layout;
+const { SubMenu } = Menu
+const { Header, Sider, Content } = Layout
 
 export default class Routes extends React.Component {
 
@@ -23,7 +23,7 @@ export default class Routes extends React.Component {
             <div className="logo">
               <img src={logoImg} />
             </div>
-            <Menu theme="dark" mode="inline" defaultSelectedKeys={["overView"]}>
+            <Menu theme="dark" mode="inline" defaultSelectedKeys={['overView']}>
               <Menu.Item key="overView">
                 <Link to='/'>
                   <BarChartOutlined />
@@ -73,6 +73,6 @@ export default class Routes extends React.Component {
           </Layout>
         </Layout>
       </BrowserRouter>
-    );
+    )
   }
 }

@@ -1,9 +1,9 @@
-import moment from 'moment';
+import moment from 'moment'
 import _ from 'lodash'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Radio, DatePicker } from 'antd'
 import './DateGroupPicker.less'
-const { RangePicker } = DatePicker;
+const { RangePicker } = DatePicker
 
 import { RangeValue } from 'rc-picker/lib/interface'
 
@@ -27,7 +27,7 @@ const DateGroupPicker = ({ getDataByDateRange }) => {
     setRangePickerValue(dates)
     if (dates) {
       getDataByDateRange(dates)
-      const key = _.findKey(dateRangeCompareBoard, item => item[0].isSame(dates[0], 'day') && item[1].isSame(dates[1], 'day'));
+      const key = _.findKey(dateRangeCompareBoard, item => item[0].isSame(dates[0], 'day') && item[1].isSame(dates[1], 'day'))
       if (key) {
         setRadioGroupValue(key)
         return
