@@ -1,6 +1,8 @@
-import React from 'react'
 import _ from 'lodash'
+import React from 'react'
 import ReactEcharts from 'echarts-for-react'
+import { LineConfigItem, PassengerTrafficItem } from '@/Services'
+
 import './LineAmountPieChart.less'
 
 const makeOption = (data, lineConfig) => {
@@ -54,8 +56,12 @@ const makeOption = (data, lineConfig) => {
   }
 }
 
+interface Props {
+  data: PassengerTrafficItem
+  lineConfigList: LineConfigItem[]
+}
 // 饼图
-const LineAmountChart = ({ data, lineConfigList }) => {
+const LineAmountChart = ({ data, lineConfigList }: Props) => {
   const option = makeOption(data, lineConfigList)
   const showLoading = _.isEmpty(data) ? true : false
   return <div className="COMPONENT-line-amount-bar-chart">

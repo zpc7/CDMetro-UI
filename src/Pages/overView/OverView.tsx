@@ -2,6 +2,7 @@ import { Card, Row, Col } from 'antd'
 import React, { Component } from 'react'
 import moment from 'moment'
 import http from '@/Utils/http'
+import { getLineConfig, getLastestPassengerTraffic, LineConfigItem, PassengerTrafficItem } from '@/Services'
 import LineAmountBarChart from '@/Components/overViewChart/LineAmountBarChart'
 import LineAmountPieChart from '@/Components/overViewChart/LineAmountPieChart'
 import DateGroupPicker from '@/Components/dateGroupPicker/DateGroupPicker'
@@ -9,20 +10,9 @@ import DayAmountChart from '@/Components/overViewChart/DayAmount'
 import './OverView.less'
 
 interface State {
-  dayAmountList: any[]
-  lineConfigList: any[]
-  lastestData: dayAmountData
-}
-interface lineData {
-  lineId: string
-  lineAmount: string
-}
-interface dayAmountData {
-  id: number
-  date: string
-  dateType: string
-  lineData: lineData[]
-  sum: string
+  dayAmountList: PassengerTrafficItem[]
+  lineConfigList: LineConfigItem[]
+  lastestData: PassengerTrafficItem
 }
 
 export default class OverView extends Component<{}, State> {
@@ -39,7 +29,7 @@ export default class OverView extends Component<{}, State> {
   }
 
   async componentDidMount() {
-    const lineConfigResponse = await http.get('/lineConfig')
+    const lineConfigResponse = await getLineConfig()
     this.setState({ lineConfigList: lineConfigResponse.list })
     await this.getDataByDateRange()
     await this.getLastestData()
@@ -51,7 +41,7 @@ export default class OverView extends Component<{}, State> {
   }
   // 最新的数据
   getLastestData = async () => {
-    const lastestData = (await http.get('/analysis/lastest')) as dayAmountData
+    const lastestData = await getLastestPassengerTraffic()
     this.setState({ lastestData })
   }
   render() {

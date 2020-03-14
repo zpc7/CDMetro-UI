@@ -1,5 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
+import { getLineConfig, getPassengerTraffic, LineConfigItem, PassengerTrafficItem } from '@/Services'
 
 import http from '@/Utils/http'
 import { Button, message } from 'antd'
@@ -17,8 +18,8 @@ interface State {
   total: number
   visible: boolean
   searchCondition: SearchCondition
-  dataSource: Array<any>
-  lineConfig: any
+  dataSource: PassengerTrafficItem[]
+  lineConfig: LineConfigItem[]
   editRecord: any
   lastestDate: string
 }
@@ -38,7 +39,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   };
 
   async componentDidMount() {
-    const lineConfigResponse = await http.get('/lineConfig')
+    const lineConfigResponse = await getLineConfig()
     this.setState({ lineConfig: lineConfigResponse.list })
     this.getDataList()
   }
@@ -72,14 +73,14 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.getDataList()
   }
   getDataList = async (page = 1, pageSize = 10) => {
-    const res = await http.get(`/dayAmount?page=${page}&pageSize=${pageSize}`)
+    const res = await getPassengerTraffic(`page=${page}&pageSize=${pageSize}`)
     this.setState({ dataSource: res.list, total: res.total, lastestDate: _.get(res, 'list[0].date', '') })
     message.success('列表更新成功')
   }
   handleSearch = async ({ dateRange, dateType }) => {
     const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=${dateRange[1]}` : ''
     const dateTypeUrl = dateType ? `&dateType=${dateType}` : ''
-    const res = await http.get(`/dayAmount?page=1&pageSize=10${dateRangeUrl}${dateTypeUrl}`)
+    const res = await getPassengerTraffic(`page=1&pageSize=10${dateRangeUrl}${dateTypeUrl}`)
     message.success('查询成功')
     this.setState({ dataSource: res.list, total: res.total })
   }
@@ -112,7 +113,6 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           />
         </div>
         <PassengerAmountModal
-          loading={false}
           visible={visible}
           editRecord={editRecord}
           lineConfig={lineConfig}

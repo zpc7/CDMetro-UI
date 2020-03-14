@@ -5,7 +5,10 @@ import './PassengerAmountSearch.less'
 
 const { RangePicker } = DatePicker
 
-const PassengerAmountSearch = ({ onSearch }) => {
+interface Props {
+  onSearch: Function
+}
+const PassengerAmountSearch = ({ onSearch }: Props) => {
   const onFinish = ({ dateRange, dateType }) => {
     onSearch({
       dateType,

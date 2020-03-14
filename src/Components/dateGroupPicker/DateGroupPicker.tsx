@@ -14,7 +14,10 @@ const dateRangeCompareBoard = {
   year: [moment().startOf('year'), moment().endOf('year')]
 }
 
-const DateGroupPicker = ({ getDataByDateRange }) => {
+interface Props {
+  getDataByDateRange: Function
+}
+const DateGroupPicker = ({ getDataByDateRange }: Props) => {
   const [radioGroupValue, setRadioGroupValue] = useState('recent')
   const [rangePickerValue, setRangePickerValue] = useState(dateRangeCompareBoard['recent'])
   const handleRadioGroupChange = (e) => {

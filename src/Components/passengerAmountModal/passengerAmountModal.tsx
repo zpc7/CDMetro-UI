@@ -3,18 +3,18 @@ import _ from 'lodash'
 import moment from 'moment'
 import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider, Button } from 'antd'
 import './passengerAmountModal.less'
+import { LineConfigItem } from '@/Services'
 
 interface Props {
   visible: boolean
-  loading: boolean
-  lineConfig: any[]
+  lineConfig: LineConfigItem[]
   onOk: Function
   onCancel: Function
   editRecord: any
   lastestDate: string
 }
 
-const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk, loading, lastestDate }) => {
+const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk, lastestDate }: Props) => {
   const [form] = Form.useForm()
   const [confirmLoading, setconfirmLoading] = useState(false)
   const modalType = _.isEmpty(editRecord) ? 'add' : 'edit'

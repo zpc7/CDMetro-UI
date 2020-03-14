@@ -1,7 +1,8 @@
+import _ from 'lodash'
 import React from 'react'
 import { Table, Divider, Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import _ from 'lodash'
+import { LineConfigItem, PassengerTrafficItem } from '@/Services'
 
 // 日期类型简写-全称对照表
 const dateTypeCompareBoard = {
@@ -77,7 +78,15 @@ const formateData = (data, lineConfig) => data.map(item => {
   return result
 })
 
-const passengerAmountTable = props => {
+interface Props {
+  dataSource: PassengerTrafficItem[]
+  lineConfig: LineConfigItem[]
+  onPaginationChange: (page: number, pageSize?: number) => void
+  total: number
+  onEdit: Function
+  onDelete: Function
+}
+const passengerAmountTable = (props: Props) => {
   const { dataSource, lineConfig, onPaginationChange, total } = props
   const columns = makeColumns(props)
   const data = formateData(dataSource, lineConfig)

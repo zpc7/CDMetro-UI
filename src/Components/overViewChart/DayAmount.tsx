@@ -1,8 +1,9 @@
-import React from 'react'
-import './DayAmount.less'
 import _ from 'lodash'
-
+import React from 'react'
 import ReactEcharts from 'echarts-for-react'
+import { LineConfigItem, PassengerTrafficItem } from '@/Services'
+
+import './DayAmount.less'
 
 const makeOption = (lineConfig, dayAmount) => {
   const lineColor = lineConfig.map(item => item.lineColor)
@@ -90,7 +91,11 @@ const makeOption = (lineConfig, dayAmount) => {
     series: [...lineSeries, sumSeries]
   }
 }
-const DayAmountChart = ({ lineConfigList, dayAmountList }) => {
+interface Props {
+  lineConfigList: LineConfigItem[]
+  dayAmountList: PassengerTrafficItem[]
+}
+const DayAmountChart = ({ lineConfigList, dayAmountList }: Props) => {
   const option = makeOption(lineConfigList, dayAmountList)
   return <div className="COMPONENT-day-amount-chart">
     <ReactEcharts option={option} style={{ height: '450px' }} />
