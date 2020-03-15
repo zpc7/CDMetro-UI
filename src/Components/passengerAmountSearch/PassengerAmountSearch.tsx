@@ -11,7 +11,7 @@ interface Props {
 const PassengerAmountSearch = ({ onSearch }: Props) => {
   const onFinish = ({ dateRange, dateType }) => {
     onSearch({
-      dateType,
+      dateType: dateType || '',
       dateRange: dateRange ? dateRange.map(i => i.format('YYYY-MM-DD')) : ''
     })
   }

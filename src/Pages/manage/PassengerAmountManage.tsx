@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash'
 import {
   getLineConfig,
   getPassengerTraffic,
@@ -10,21 +9,23 @@ import {
   PassengerTrafficItem
 } from '@/Services'
 
-import { Button, message } from 'antd'
-import { PlusOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons'
+import { Button, Tooltip, message } from 'antd'
+import { PlusOutlined, FullscreenOutlined, ReloadOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import PassengerAmountSearch from '@/Components/passengerAmountSearch/PassengerAmountSearch'
 import PassengerAmountTable from '@/Components/passengerAmountTable/PassengerAmountTable'
 import PassengerAmountModal from '@/Components/passengerAmountModal/PassengerAmountModal'
 import './PassengerAmountManage.less'
 
-interface Pagination {
+interface SearchCondition {
   page: number
   pageSize: number
+  dateRange: [string, string] | string
+  dateType: string
 }
 interface State {
   total: number
   visible: boolean
-  pagination: Pagination
+  searchCondition: SearchCondition
   dataSource: PassengerTrafficItem[]
   lineConfig: LineConfigItem[]
   editRecord: any
@@ -33,9 +34,11 @@ interface State {
 export default class PassengerAmountManage extends React.Component<{}, State> {
   state = {
     visible: false,
-    pagination: {
+    searchCondition: {
       page: 1,
-      pageSize: 10
+      pageSize: 10,
+      dateRange: '',
+      dateType: ''
     },
     total: 0,
     dataSource: [],
@@ -52,7 +55,6 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.setState({ visible: true })
   }
   handleOk = async (values, type, editRecord) => {
-    console.log('request:', values)
     if (type === 'add') {
       await addPassengerTrafficbyId(values)
       message.success('新增成功')
@@ -70,7 +72,8 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.setState({ editRecord, visible: true })
   }
   handlePaginationChange = (page, pageSize) => {
-    this.setState({ pagination: { page, pageSize } }, this.getDataList)
+    const { searchCondition } = this.state
+    this.setState({ searchCondition: { ...searchCondition, page, pageSize } }, this.getDataList)
   }
   handleDelete = async (id) => {
     await deletePassengerTrafficbyId(id)
@@ -78,17 +81,16 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.getDataList()
   }
   getDataList = async () => {
-    const { page, pageSize } = this.state.pagination
-    const res = await getPassengerTraffic(`page=${page}&pageSize=${pageSize}`)
+    const { page, pageSize, dateRange, dateType } = this.state.searchCondition
+    const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=${dateRange[1]}` : ''
+    const dateTypeUrl = dateType ? `&dateType=${dateType}` : ''
+    const res = await getPassengerTraffic(`page=${page}&pageSize=${pageSize}${dateRangeUrl}${dateTypeUrl}`)
     this.setState({ dataSource: res.list, total: res.total })
     message.success('列表更新成功')
   }
-  handleSearch = async ({ dateRange, dateType }) => {
-    const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=${dateRange[1]}` : ''
-    const dateTypeUrl = dateType ? `&dateType=${dateType}` : ''
-    const res = await getPassengerTraffic(`page=1&pageSize=10${dateRangeUrl}${dateTypeUrl}`)
-    message.success('查询成功')
-    this.setState({ dataSource: res.list, total: res.total })
+  handleSearch = ({ dateRange, dateType }) => {
+    const { searchCondition } = this.state
+    this.setState({ searchCondition: { ...searchCondition, dateRange, dateType } }, this.getDataList)
   }
 
   render() {
@@ -98,7 +100,12 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
         <PassengerAmountSearch onSearch={this.handleSearch} />
         <div className="table-wrapper">
           <div className="table-toolbar">
-            <div className="title">详细数据</div>
+            <div className="title">
+              <span className='desc'>详细数据</span>
+              <Tooltip title="2016-08-24 前的客运数据不完整, 故未收录此前数据">
+                <InfoCircleOutlined />
+              </Tooltip>
+            </div>
             <div className="option">
               <Button type="primary" onClick={this.handleAdd} icon={<PlusOutlined />}>
                 新增
