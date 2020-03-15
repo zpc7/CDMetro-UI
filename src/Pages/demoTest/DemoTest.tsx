@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo, useMemo } from 'react'
+import React, { useState, useCallback, memo, useMemo, ChangeEvent } from 'react'
 
 interface Profile {
   name: string
@@ -6,7 +6,7 @@ interface Profile {
 }
 interface Props {
   profile: Profile
-  updateName: Function
+  updateName: (event: ChangeEvent<HTMLInputElement>) => void
 }
 const ChildWithMemo: React.FunctionComponent<Props> = memo(({ profile, updateName }: Props) => {
   console.log('MemoChild Render')

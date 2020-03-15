@@ -1,8 +1,13 @@
 import { Card, Row, Col } from 'antd'
 import React, { Component } from 'react'
 import moment from 'moment'
-import http from '@/Utils/http'
-import { getLineConfig, getLastestPassengerTraffic, LineConfigItem, PassengerTrafficItem } from '@/Services'
+import {
+  getLineConfig,
+  getLastestPassengerTraffic,
+  getPassengerTrafficWithDateRange,
+  LineConfigItem,
+  PassengerTrafficItem
+} from '@/Services'
 import LineAmountBarChart from '@/Components/overViewChart/LineAmountBarChart'
 import LineAmountPieChart from '@/Components/overViewChart/LineAmountPieChart'
 import DateGroupPicker from '@/Components/dateGroupPicker/DateGroupPicker'
@@ -36,7 +41,7 @@ export default class OverView extends Component<{}, State> {
   }
   getDataByDateRange = async (dates = [moment().subtract(30, 'days'), moment()]) => {
     const dateStrings = dates.map(i => i.format('YYYY-MM-DD'))
-    const res = await http.get(`/analysis?startDate=${dateStrings[0]}&endDate=${dateStrings[1]}`)
+    const res = await getPassengerTrafficWithDateRange(dateStrings[0], dateStrings[1])
     this.setState({ dayAmountList: res.list })
   }
   // 最新的数据

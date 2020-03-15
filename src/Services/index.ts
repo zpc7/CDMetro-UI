@@ -15,7 +15,7 @@ interface LineDataItem {
   lineAmount: string
 }
 export interface PassengerTrafficItem {
-  id: number
+  id?: number // 兼容 新增和获取
   date: string
   dateType: string
   lineData: LineDataItem[]
@@ -30,5 +30,15 @@ export const getLineConfig: () => Promise<LineConfigResponse> = () => http.get('
 // 获取完整客运量列表
 export const getPassengerTraffic: (queryUrl: string) => Promise<PassengerTrafficResponse>
   = queryUrl => http.get(`/dayAmount?${queryUrl}`)
-// 获取最新一天的数据
+// 删除客运量ById
+export const deletePassengerTrafficbyId: (id: number) => Promise<any> = id => http.delete(`/dayAmount/${id}`)
+// 新增客运量
+export const addPassengerTrafficbyId: (value: PassengerTrafficItem) => Promise<any> = value => http.post('/dayAmount', value)
+// 更新客运量ById
+export const updatePassengerTrafficbyId: (id: number, value: PassengerTrafficItem) => Promise<any>
+  = (id, value) => http.put(`/dayAmount/${id}`, value)
+// 获取最新一天客运量
 export const getLastestPassengerTraffic: () => Promise<PassengerTrafficItem> = () => http.get('/analysis/lastest')
+// 获取日期时间段内的客运量
+export const getPassengerTrafficWithDateRange: (startDate: string, endDate: string) => Promise<PassengerTrafficResponse>
+  = (startDate, endDate) => http.get(`/analysis?startDate=${startDate}&endDate=${endDate}`)

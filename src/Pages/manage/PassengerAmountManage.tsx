@@ -1,8 +1,15 @@
 import React from 'react'
 import _ from 'lodash'
-import { getLineConfig, getPassengerTraffic, LineConfigItem, PassengerTrafficItem } from '@/Services'
+import {
+  getLineConfig,
+  getPassengerTraffic,
+  deletePassengerTrafficbyId,
+  addPassengerTrafficbyId,
+  updatePassengerTrafficbyId,
+  LineConfigItem,
+  PassengerTrafficItem
+} from '@/Services'
 
-import http from '@/Utils/http'
 import { Button, message } from 'antd'
 import { PlusOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons'
 import PassengerAmountSearch from '@/Components/passengerAmountSearch/PassengerAmountSearch'
@@ -49,10 +56,10 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   handleOk = async (values, type, editRecord) => {
     console.log('request:', values)
     if (type === 'add') {
-      await http.post('/dayAmount', values)
+      await addPassengerTrafficbyId(values)
       message.success('新增成功')
     } else {
-      await http.put(`/dayAmount/${editRecord.id}`, values)
+      await updatePassengerTrafficbyId(editRecord.id, values)
       message.success('编辑成功')
     }
     this.setState({ visible: false, editRecord: null })
@@ -68,7 +75,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.getDataList(page, pageSize)
   }
   handleDelete = async (id) => {
-    await http.delete(`/dayAmount/${id}`)
+    await deletePassengerTrafficbyId(id)
     message.success('删除成功')
     this.getDataList()
   }

@@ -10,6 +10,11 @@ module.exports = {
     'Atomics': 'readonly',
     'SharedArrayBuffer': 'readonly'
   },
+  'settings': {
+    'react': {
+      'version': 'detect'
+    }
+  },
   'parser': '@typescript-eslint/parser',
   'parserOptions': {
     'ecmaFeatures': {
