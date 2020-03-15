@@ -11,10 +11,9 @@ interface Props {
   onOk: Function
   onCancel: Function
   editRecord: any
-  lastestDate: string
 }
 
-const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk, lastestDate }: Props) => {
+const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk }: Props) => {
   const [form] = Form.useForm()
   const [confirmLoading, setconfirmLoading] = useState(false)
   const modalType = _.isEmpty(editRecord) ? 'add' : 'edit'
@@ -39,10 +38,6 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
       })
     }
   }, [editRecord])
-
-  useEffect(() => {
-    lastestDate !== '' && form.setFieldsValue({ date: moment(lastestDate).subtract(1, 'days') })
-  }, [lastestDate])
 
   const handleFinish = fieldsValue => {
     console.log('fieldsValue:', fieldsValue)
@@ -92,7 +87,7 @@ const PassengerAmountModal = ({ visible, editRecord, lineConfig, onCancel, onOk,
       onCancel={handleCancel}
       wrapClassName='COMPONENT-passenger-amount-modal'
     >
-      <Form form={form} onFinish={handleFinish} initialValues={{ date: moment(lastestDate).subtract(1, 'days'), dateType: 'NWD' }}>
+      <Form form={form} onFinish={handleFinish} initialValues={{ date: moment().subtract(1, 'days'), dateType: 'NWD' }}>
         <Form.Item
           name="date"
           label="客运日期"

@@ -10,6 +10,12 @@ const dateTypeCompareBoard = {
   TDBH: '假期前一天',
   SH: '法定节假日',
 }
+// 日期类型简写-全称对照表
+const dateTypeColorCompareBoard = {
+  NWD: '#000EA4',
+  TDBH: '#FF5B35',
+  SH: '#E5007F',
+}
 const showDeleteConfirm = (date, id, onDelete) => {
   Modal.confirm({
     title: `确定删除日期 ${date} 的客运量数据?`,
@@ -32,7 +38,7 @@ const makeColumns = ({ lineConfig, onEdit, onDelete }) => {
       title: '日期类型',
       dataIndex: 'dateType',
       key: 'dateType',
-      render: (text: string) => <span>{dateTypeCompareBoard[text]}</span>
+      render: (text: string) => <span style={{ color: dateTypeColorCompareBoard[text] }}>{dateTypeCompareBoard[text]}</span>
     },
     {
       title: '总运量',

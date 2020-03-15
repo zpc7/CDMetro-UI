@@ -17,24 +17,23 @@ import PassengerAmountTable from '@/Components/passengerAmountTable/PassengerAmo
 import PassengerAmountModal from '@/Components/passengerAmountModal/PassengerAmountModal'
 import './PassengerAmountManage.less'
 
-interface SearchCondition {
+interface Pagination {
   page: number
   pageSize: number
 }
 interface State {
   total: number
   visible: boolean
-  searchCondition: SearchCondition
+  pagination: Pagination
   dataSource: PassengerTrafficItem[]
   lineConfig: LineConfigItem[]
   editRecord: any
-  lastestDate: string
 }
 
 export default class PassengerAmountManage extends React.Component<{}, State> {
   state = {
     visible: false,
-    searchCondition: {
+    pagination: {
       page: 1,
       pageSize: 10
     },
@@ -42,7 +41,6 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     dataSource: [],
     lineConfig: [],
     editRecord: null,
-    lastestDate: ''
   };
 
   async componentDidMount() {
@@ -72,16 +70,17 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     this.setState({ editRecord, visible: true })
   }
   handlePaginationChange = (page, pageSize) => {
-    this.getDataList(page, pageSize)
+    this.setState({ pagination: { page, pageSize } }, this.getDataList)
   }
   handleDelete = async (id) => {
     await deletePassengerTrafficbyId(id)
     message.success('删除成功')
     this.getDataList()
   }
-  getDataList = async (page = 1, pageSize = 10) => {
+  getDataList = async () => {
+    const { page, pageSize } = this.state.pagination
     const res = await getPassengerTraffic(`page=${page}&pageSize=${pageSize}`)
-    this.setState({ dataSource: res.list, total: res.total, lastestDate: _.get(res, 'list[0].date', '') })
+    this.setState({ dataSource: res.list, total: res.total })
     message.success('列表更新成功')
   }
   handleSearch = async ({ dateRange, dateType }) => {
@@ -93,7 +92,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   }
 
   render() {
-    const { dataSource, lineConfig, visible, total, editRecord, lastestDate } = this.state
+    const { dataSource, lineConfig, visible, total, editRecord } = this.state
     return (
       <section className="PAGE-passenger-amount-manage">
         <PassengerAmountSearch onSearch={this.handleSearch} />
@@ -106,7 +105,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
               </Button>
               <div className='extra-operation'>
                 <FullscreenOutlined />
-                <ReloadOutlined onClick={() => this.getDataList(1, 10)} />
+                <ReloadOutlined onClick={this.getDataList} />
               </div>
             </div>
           </div>
@@ -125,7 +124,6 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           lineConfig={lineConfig}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          lastestDate={lastestDate}
         />
       </section>
     )
