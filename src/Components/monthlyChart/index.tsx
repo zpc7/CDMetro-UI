@@ -5,38 +5,35 @@ import moment from 'moment'
 import './index.less'
 
 const tabList = [{
-  key: 'lineBar',
-  tab: '各线日均客运量对比',
+  key: 'lineAverage',
+  tab: '各线日均客运量',
 }, {
-  key: 'dateTypeBar',
-  tab: '各线分类别日均客运量',
-}, {
-  key: 'dateTypePie',
-  tab: '分类别总体客运量',
+  key: 'dateTypeAverage',
+  tab: '分类别日均客运量',
 }]
 
 const disabledDate = current => {
+  // 2016-08-24 为最早的历史数据
   return current &&
     current > moment().endOf('day') ||
     current < moment('2016-08-24').subtract(1, 'month').startOf('day')
 }
 
 const index = ({ data, lineConfigList, onMonthChange }: any) => {
-  const [tabKey, setTabKey] = useState('lineBar')
+  const [tabKey, setTabKey] = useState('lineAverage')
   const [month, setMonth] = useState(moment().format('YYYY-MM'))
   const handleMonthChange = (date, dateString) => {
-    setMonth(dateString)
+    dateString && setMonth(dateString)
     dateString && onMonthChange(dateString)
   }
   const contentList = {
-    lineBar: <LineAverageChart lineConfig={lineConfigList} data={data} />,
-    dateTypeBar: '',
-    dateTypePie: ''
+    lineAverage: <LineAverageChart lineConfig={lineConfigList} data={data} />,
+    dateTypeAverage: ''
   }
   return (
     <Card
       style={{ width: '100%' }}
-      title={`${month ? moment(month).format('YYYY年MM月') : ''} 月度客流分析`}
+      title={`${moment(month).format('YYYY年MM月')} 月度客流分析`}
       extra={<DatePicker onChange={handleMonthChange} defaultValue={moment()} disabledDate={disabledDate} picker="month" />}
       tabList={tabList}
       activeTabKey={tabKey}
