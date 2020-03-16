@@ -1,8 +1,20 @@
 import React from 'react'
 import { Row, Col } from 'antd'
+import _ from 'lodash'
+import moment from 'moment'
 import ReactEcharts from 'echarts-for-react'
 
-const makeOption = () => {
+const makeBarOption = (lineConfig, data) => {
+  const formatDate = date => moment(date).format('M月D日')
+  const getAverageData = key => lineConfig.map(v => {
+    const averageInfo = _.find(data[key].lineAverage, ['lineId', v.id])
+    return averageInfo ? Number(averageInfo.average) : '-'
+  })
+  const xAxisData = lineConfig.map(item => `${item.lineNumber}号线`)
+  const currentMonthSeriesData = getAverageData('currentMonth')
+  const lastMonthSeriesData = getAverageData('lastMonth')
+  const sameMonthLastYearSeriesData = getAverageData('sameMonthLastYear')
+
   return {
     color: ['#4cabce', '#006699', '#e5323e'],
     title: {
@@ -11,7 +23,7 @@ const makeOption = () => {
       textStyle: {
         fontSize: 16
       },
-      subtext: '{a|本月最高: }\n{a|6月9日: }{b|325.77}\n{a|本月最低: }\n{a|6月30日: }{b|100.77}\n\n{a|当月: }{b|325.77}\n{a|上月: }{b|325.77}\n{a|去年同月: }{b|325.77}',
+      subtext: `{a|本月最高: }\n{a|${formatDate(data.max.date)}: }{b|${data.max.value}}\n{a|本月最低: }\n{a|${formatDate(data.min.date)}: }{b|${data.min.value}}\n\n{a|当月: }{b|${data.currentMonth.average}}\n{a|上月: }{b|${data.lastMonth.average}}\n{a|去年同月: }{b|${data.sameMonthLastYear.average}}`,
       subtextStyle: {
         lineHeight: 24,
         rich: {
@@ -48,7 +60,7 @@ const makeOption = () => {
     xAxis: [
       {
         type: 'category',
-        data: ['1号线', '2号线', '3号线', '4号线', '5号线', '7号线', '10号线'],
+        data: xAxisData,
         axisPointer: {
           type: 'shadow'
         }
@@ -68,7 +80,7 @@ const makeOption = () => {
           show: true,
           position: 'top'
         },
-        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6]
+        data: sameMonthLastYearSeriesData
       },
       {
         name: '上月',
@@ -78,7 +90,7 @@ const makeOption = () => {
           show: true,
           position: 'top'
         },
-        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6]
+        data: lastMonthSeriesData
       },
       {
         name: '当月',
@@ -87,60 +99,66 @@ const makeOption = () => {
           show: true,
           position: 'top'
         },
-        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6]
+        data: currentMonthSeriesData
       }
     ]
   }
 }
-const option = {
-  tooltip: {
-    trigger: 'item',
-    formatter: '{a} <br/>{b} : {c} ({d}%)'
-  },
-  title: {
-    text: '当月各线占比',
-    left: 'center',
-    textStyle: {
-      fontSize: 16
-    }
-  },
-  legend: {
-    type: 'scroll',
-    top: 30,
-    data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-  },
-  series: [
-    {
-      name: '访问来源',
-      type: 'pie',
-      radius: '55%',
-      center: ['50%', '60%'],
-      data: [
-        { value: 335, name: '直接访问' },
-        { value: 310, name: '邮件营销' },
-        { value: 234, name: '联盟广告' },
-        { value: 135, name: '视频广告' },
-        { value: 1548, name: '搜索引擎' }
-      ],
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
+const makePieOption = (lineConfig, data) => {
+  const color = lineConfig.map(i => i.lineColor)
+  const legendData = lineConfig.map(i => `${i.lineNumber}号线`)
+  const seriesData = lineConfig.map(v => {
+    const averageInfo = _.find(data['currentMonth'].lineAverage, ['lineId', v.id])
+    return averageInfo ? {
+      value: Number(averageInfo.average),
+      name: `${v.lineNumber}号线`
+    } : '-'
+  })
+  return ({
+    color,
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b} : {c} ({d}%)'
+    },
+    title: {
+      text: '当月各线占比',
+      left: 'center',
+      textStyle: {
+        fontSize: 16
+      }
+    },
+    legend: {
+      type: 'scroll',
+      top: 30,
+      data: legendData
+    },
+    series: [
+      {
+        name: '访问来源',
+        type: 'pie',
+        radius: '55%',
+        center: ['50%', '60%'],
+        data: seriesData,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
         }
       }
-    }
-  ]
+    ]
+  })
 }
-const LineAverageChart = () => {
+const LineAverageChart = ({ lineConfig, data }: any) => {
   return (
     <div className="COMPONENT-line-average-chart">
       <Row gutter={8}>
         <Col span={17}>
-          <ReactEcharts option={makeOption()} style={{ height: '450px' }} />
+          <ReactEcharts option={makeBarOption(lineConfig, data)} style={{ height: '450px' }} />
         </Col>
         <Col span={7}>
-          <ReactEcharts option={option} style={{ height: '450px' }} />
+          <ReactEcharts option={makePieOption(lineConfig, data)} style={{ height: '450px' }} />
         </Col>
       </Row>
     </div>

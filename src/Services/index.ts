@@ -25,6 +25,23 @@ interface PassengerTrafficResponse {
   total: number
   list: PassengerTrafficItem[]
 }
+interface MonthlyAverageData {
+  average: string
+  lineAverage: Array<{ lineId: string; average: string }>
+}
+export interface AverageMonthlyDataResponse {
+  max: {
+    date: string
+    value: string
+  }
+  min: {
+    date: string
+    value: string
+  }
+  currentMonth: MonthlyAverageData
+  lastMonth: MonthlyAverageData
+  sameMonthLastYear: MonthlyAverageData
+}
 // 获取线路配置列表
 export const getLineConfig: () => Promise<LineConfigResponse> = () => http.get('/lineConfig')
 // 获取完整客运量列表
@@ -42,3 +59,5 @@ export const getLastestPassengerTraffic: () => Promise<PassengerTrafficItem> = (
 // 获取日期时间段内的客运量
 export const getPassengerTrafficWithDateRange: (startDate: string, endDate: string) => Promise<PassengerTrafficResponse>
   = (startDate, endDate) => http.get(`/analysis?startDate=${startDate}&endDate=${endDate}`)
+// 获取月度分析数据
+export const getAverageDataByMonth: (month: string) => Promise<AverageMonthlyDataResponse> = month => http.get(`/analysis/monthly/${month}`)
