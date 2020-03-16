@@ -48,7 +48,7 @@ const makeOption = (lineConfig, dayAmount) => {
     }
   }
   return {
-    color: ['#BFBFBF', ...lineColor],
+    color: ['#D2D2D2', ...lineColor],
     grid: {
       left: '5%',
       right: '5%'

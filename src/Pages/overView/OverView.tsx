@@ -12,6 +12,7 @@ import LineAmountBarChart from '@/Components/overViewChart/LineAmountBarChart'
 import LineAmountPieChart from '@/Components/overViewChart/LineAmountPieChart'
 import DateGroupPicker from '@/Components/dateGroupPicker/DateGroupPicker'
 import DayAmountChart from '@/Components/overViewChart/DayAmount'
+import MonthlyChart from '@/Components/monthlyChart'
 import './OverView.less'
 
 interface State {
@@ -65,13 +66,14 @@ export default class OverView extends Component<{}, State> {
             </Card>
           </Col>
         </Row>
-        <Card
-          title="DayAmount"
+        {/* <Card
+          title="完整客运数据"
           className='day-amount-wrapper'
           extra={<DateGroupPicker getDataByDateRange={this.getDataByDateRange} />}
         >
           <DayAmountChart lineConfigList={lineConfigList} dayAmountList={dayAmountList} />
-        </Card>
+        </Card> */}
+        <MonthlyChart />
       </div>
     )
   }
