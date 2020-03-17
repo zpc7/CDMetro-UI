@@ -7,16 +7,18 @@ import {
   getPassengerTrafficWithDateRange,
   getAverageDataWithDateTypeByMonth,
   getAverageDataByMonth,
+  getHighestRecord,
   LineConfigItem,
   PassengerTrafficItem,
+  HighestRecordResponse,
   AverageMonthlyDataResponse,
   AverageMonthlyDataWithDateTypeResponse
 } from '@/Services'
-import LineAmountBarChart from '@/Components/overViewChart/LineAmountBarChart'
-import LineAmountPieChart from '@/Components/overViewChart/LineAmountPieChart'
+import LastestDayChart from '@/Components/overViewChart/LastestDayChart'
 import DateGroupPicker from '@/Components/dateGroupPicker/DateGroupPicker'
 import DayAmountChart from '@/Components/overViewChart/DayAmount'
 import MonthlyChart from '@/Components/monthlyChart'
+import HighestRecord from '@/Components/highestRecord/HighestRecord'
 import './OverView.less'
 
 interface State {
@@ -25,6 +27,7 @@ interface State {
   lastestData: PassengerTrafficItem
   averageMonthlyData: AverageMonthlyDataResponse
   averageMonthlyDataWithDateType: AverageMonthlyDataWithDateTypeResponse
+  highestRecord: HighestRecordResponse
 }
 const initialAverageMonthlyData = {
   max: { date: '', value: '' },
@@ -38,12 +41,18 @@ const initialAverageMonthlyDataWithDateType = {
   TDBH: { average: '', lineAverage: [] },
   SH: { average: '', lineAverage: [] }
 }
+const initialHighestRecord = {
+  max: '',
+  maxDate: '',
+  lineMax: []
+}
 export default class OverView extends Component<{}, State> {
   state = {
     dayAmountList: [],
     lineConfigList: [],
     averageMonthlyData: initialAverageMonthlyData,
     averageMonthlyDataWithDateType: initialAverageMonthlyDataWithDateType,
+    highestRecord: initialHighestRecord,
     lastestData: {
       id: 0,
       date: '',
@@ -59,6 +68,7 @@ export default class OverView extends Component<{}, State> {
     await this.getDataByDateRange()
     await this.getLastestData()
     await this.getAverageData(moment().format('YYYY-MM-DD'))
+    await this.getHighestRecordData()
   }
   getDataByDateRange = async (dates = [moment().subtract(30, 'days'), moment()]) => {
     const dateStrings = dates.map(i => i.format('YYYY-MM-DD'))
@@ -76,24 +86,28 @@ export default class OverView extends Component<{}, State> {
     const averageMonthlyDataWithDateType = await getAverageDataWithDateTypeByMonth(month)
     this.setState({ averageMonthlyData, averageMonthlyDataWithDateType })
   }
+  // 最高纪录
+  getHighestRecordData = async () => {
+    const highestRecord = await getHighestRecord()
+    this.setState({ highestRecord })
+  }
   render() {
     const {
       dayAmountList,
       lineConfigList,
       lastestData,
+      highestRecord,
       averageMonthlyData,
       averageMonthlyDataWithDateType } = this.state
     return (
       <div className='PAGE-over-view'>
         <Row gutter={16}>
           <Col className="gutter-row" span={12}>
-            <Card title={`${lastestData.date} 总客运量`} >
-              <LineAmountBarChart data={lastestData} lineConfigList={lineConfigList} />
-            </Card>
+            <LastestDayChart lastestData={lastestData} lineConfigList={lineConfigList} />
           </Col>
           <Col className="gutter-row" span={12}>
-            <Card title={`${lastestData.date} 总客运量占比`} >
-              <LineAmountPieChart data={lastestData} lineConfigList={lineConfigList} />
+            <Card title='运量最高纪录' >
+              <HighestRecord data={highestRecord} lineConfigList={lineConfigList} />
             </Card>
           </Col>
         </Row>

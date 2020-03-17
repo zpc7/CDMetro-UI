@@ -47,6 +47,11 @@ export interface AverageMonthlyDataWithDateTypeResponse {
   TDBH: MonthlyAverageData  // 假期前一天
   SH: MonthlyAverageData // 周末和法定节假日
 }
+export interface HighestRecordResponse {
+  max: string
+  maxDate: string
+  lineMax: Array<{ lineId: number; value: string; date: string }>
+}
 // 获取线路配置列表
 export const getLineConfig: () => Promise<LineConfigResponse> = () => http.get('/lineConfig')
 // 获取完整客运量列表
@@ -70,3 +75,5 @@ export const getAverageDataByMonth: (month: string) => Promise<AverageMonthlyDat
 // 获取月度分日期类别分析数据
 export const getAverageDataWithDateTypeByMonth: (month: string) => Promise<AverageMonthlyDataWithDateTypeResponse>
   = month => http.get(`/analysis/monthly/dateType/${month}`)
+// 获取最高纪录
+export const getHighestRecord: () => Promise<HighestRecordResponse> = () => http.get('analysis/highestRecord')
