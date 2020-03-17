@@ -36,7 +36,7 @@ const PassengerAmountSearch = ({ onSearch }: Props) => {
               <Select allowClear>
                 <Select.Option value="NWD">普通工作日</Select.Option>
                 <Select.Option value="TDBH">假期前一天 </Select.Option>
-                <Select.Option value="SH">法定节假日</Select.Option>
+                <Select.Option value="SH">周末及节假日</Select.Option>
               </Select>
             </Form.Item>
           </Col>

@@ -3,8 +3,6 @@ import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { LineConfigItem, PassengerTrafficItem } from '@/Services'
 
-import './LineAmountBarChart.less'
-
 const makeOption = (data, lineConfig) => {
   const color = lineConfig.map(i => i.lineColor)
   const xAxisData = lineConfig.map(i => `${i.lineNumber}号线`)

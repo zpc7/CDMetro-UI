@@ -3,8 +3,6 @@ import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 import { LineConfigItem, PassengerTrafficItem } from '@/Services'
 
-import './DayAmount.less'
-
 const makeOption = (lineConfig, dayAmount) => {
   const lineColor = lineConfig.map(item => item.lineColor)
   const lineLegend = lineConfig.map(line => `${line.lineNumber}号线`)

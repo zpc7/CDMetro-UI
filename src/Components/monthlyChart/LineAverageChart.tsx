@@ -134,7 +134,7 @@ const makePieOption = (lineConfig, data) => {
     },
     series: [
       {
-        name: '访问来源',
+        name: '当月占比',
         type: 'pie',
         radius: '55%',
         center: ['50%', '60%'],
@@ -151,6 +151,7 @@ const makePieOption = (lineConfig, data) => {
   })
 }
 const LineAverageChart = ({ lineConfig, data }: any) => {
+  console.log('render NOT dateType')
   return (
     <div className="COMPONENT-line-average-chart">
       <Row gutter={8}>

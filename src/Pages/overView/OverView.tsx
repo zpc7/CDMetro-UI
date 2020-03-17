@@ -5,10 +5,12 @@ import {
   getLineConfig,
   getLastestPassengerTraffic,
   getPassengerTrafficWithDateRange,
+  getAverageDataWithDateTypeByMonth,
   getAverageDataByMonth,
   LineConfigItem,
   PassengerTrafficItem,
-  AverageMonthlyDataResponse
+  AverageMonthlyDataResponse,
+  AverageMonthlyDataWithDateTypeResponse
 } from '@/Services'
 import LineAmountBarChart from '@/Components/overViewChart/LineAmountBarChart'
 import LineAmountPieChart from '@/Components/overViewChart/LineAmountPieChart'
@@ -22,34 +24,26 @@ interface State {
   lineConfigList: LineConfigItem[]
   lastestData: PassengerTrafficItem
   averageMonthlyData: AverageMonthlyDataResponse
+  averageMonthlyDataWithDateType: AverageMonthlyDataWithDateTypeResponse
 }
 const initialAverageMonthlyData = {
-  max: {
-    date: '',
-    value: ''
-  },
-  min: {
-    date: '',
-    value: ''
-  },
-  currentMonth: {
-    average: '',
-    lineAverage: []
-  },
-  lastMonth: {
-    average: '',
-    lineAverage: []
-  },
-  sameMonthLastYear: {
-    average: '',
-    lineAverage: []
-  }
+  max: { date: '', value: '' },
+  min: { date: '', value: '' },
+  currentMonth: { average: '', lineAverage: [] },
+  lastMonth: { average: '', lineAverage: [] },
+  sameMonthLastYear: { average: '', lineAverage: [] }
+}
+const initialAverageMonthlyDataWithDateType = {
+  NWD: { average: '', lineAverage: [] },
+  TDBH: { average: '', lineAverage: [] },
+  SH: { average: '', lineAverage: [] }
 }
 export default class OverView extends Component<{}, State> {
   state = {
     dayAmountList: [],
     lineConfigList: [],
     averageMonthlyData: initialAverageMonthlyData,
+    averageMonthlyDataWithDateType: initialAverageMonthlyDataWithDateType,
     lastestData: {
       id: 0,
       date: '',
@@ -79,10 +73,16 @@ export default class OverView extends Component<{}, State> {
   // 月度数据
   getAverageData = async month => {
     const averageMonthlyData = await getAverageDataByMonth(month)
-    this.setState({ averageMonthlyData })
+    const averageMonthlyDataWithDateType = await getAverageDataWithDateTypeByMonth(month)
+    this.setState({ averageMonthlyData, averageMonthlyDataWithDateType })
   }
   render() {
-    const { dayAmountList, lineConfigList, lastestData, averageMonthlyData } = this.state
+    const {
+      dayAmountList,
+      lineConfigList,
+      lastestData,
+      averageMonthlyData,
+      averageMonthlyDataWithDateType } = this.state
     return (
       <div className='PAGE-over-view'>
         <Row gutter={16}>
@@ -105,7 +105,7 @@ export default class OverView extends Component<{}, State> {
           <DayAmountChart lineConfigList={lineConfigList} dayAmountList={dayAmountList} />
         </Card>
         <MonthlyChart
-          data={averageMonthlyData}
+          data={{ averageMonthlyData, averageMonthlyDataWithDateType }}
           lineConfigList={lineConfigList}
           onMonthChange={this.getAverageData} />
       </div>

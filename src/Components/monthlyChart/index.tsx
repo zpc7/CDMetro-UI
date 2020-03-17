@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Card, DatePicker } from 'antd'
 import LineAverageChart from './LineAverageChart'
+import DateTypeAverageChart from './DateTypeAverageChart'
 import moment from 'moment'
-import './index.less'
 
 const tabList = [{
   key: 'lineAverage',
@@ -27,12 +27,12 @@ const index = ({ data, lineConfigList, onMonthChange }: any) => {
     dateString && onMonthChange(dateString)
   }
   const contentList = {
-    lineAverage: <LineAverageChart lineConfig={lineConfigList} data={data} />,
-    dateTypeAverage: ''
+    lineAverage: <LineAverageChart lineConfig={lineConfigList} data={data.averageMonthlyData} />,
+    dateTypeAverage: <DateTypeAverageChart lineConfig={lineConfigList} data={data.averageMonthlyDataWithDateType} />
   }
   return (
     <Card
-      style={{ width: '100%' }}
+      style={{ width: '100%', marginTop: '12px' }}
       title={`${moment(month).format('YYYY年MM月')} 月度客流分析`}
       extra={<DatePicker onChange={handleMonthChange} defaultValue={moment()} disabledDate={disabledDate} picker="month" />}
       tabList={tabList}

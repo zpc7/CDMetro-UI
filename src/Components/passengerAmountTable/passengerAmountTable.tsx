@@ -5,10 +5,10 @@ import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { LineConfigItem, PassengerTrafficItem } from '@/Services'
 
 // 日期类型简写-全称对照表
-const dateTypeCompareBoard = {
+export const dateTypeCompareBoard = {
   NWD: '普通工作日',
   TDBH: '假期前一天',
-  SH: '法定节假日',
+  SH: '周末及节假日',
 }
 // 日期类型简写-全称对照表
 const dateTypeColorCompareBoard = {
@@ -92,7 +92,7 @@ interface Props {
   onEdit: Function
   onDelete: Function
 }
-const passengerAmountTable = (props: Props) => {
+export const PassengerAmountTable = (props: Props) => {
   const { dataSource, lineConfig, onPaginationChange, total } = props
   const columns = makeColumns(props)
   const data = formateData(dataSource, lineConfig)
@@ -110,5 +110,3 @@ const passengerAmountTable = (props: Props) => {
     </div>
   )
 }
-
-export default passengerAmountTable

@@ -27,7 +27,7 @@ interface PassengerTrafficResponse {
 }
 interface MonthlyAverageData {
   average: string
-  lineAverage: Array<{ lineId: string; average: string }>
+  lineAverage: Array<{ lineId: number; average: string }>
 }
 export interface AverageMonthlyDataResponse {
   max: {
@@ -41,6 +41,11 @@ export interface AverageMonthlyDataResponse {
   currentMonth: MonthlyAverageData
   lastMonth: MonthlyAverageData
   sameMonthLastYear: MonthlyAverageData
+}
+export interface AverageMonthlyDataWithDateTypeResponse {
+  NWD: MonthlyAverageData  // 普通工作日
+  TDBH: MonthlyAverageData  // 假期前一天
+  SH: MonthlyAverageData // 周末和法定节假日
 }
 // 获取线路配置列表
 export const getLineConfig: () => Promise<LineConfigResponse> = () => http.get('/lineConfig')
@@ -60,4 +65,8 @@ export const getLastestPassengerTraffic: () => Promise<PassengerTrafficItem> = (
 export const getPassengerTrafficWithDateRange: (startDate: string, endDate: string) => Promise<PassengerTrafficResponse>
   = (startDate, endDate) => http.get(`/analysis?startDate=${startDate}&endDate=${endDate}`)
 // 获取月度分析数据
-export const getAverageDataByMonth: (month: string) => Promise<AverageMonthlyDataResponse> = month => http.get(`/analysis/monthly/${month}`)
+export const getAverageDataByMonth: (month: string) => Promise<AverageMonthlyDataResponse>
+  = month => http.get(`/analysis/monthly/${month}`)
+// 获取月度分日期类别分析数据
+export const getAverageDataWithDateTypeByMonth: (month: string) => Promise<AverageMonthlyDataWithDateTypeResponse>
+  = month => http.get(`/analysis/monthly/dateType/${month}`)

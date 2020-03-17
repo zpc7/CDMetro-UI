@@ -12,7 +12,7 @@ import {
 import { Button, Tooltip, message } from 'antd'
 import { PlusOutlined, FullscreenOutlined, ReloadOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import PassengerAmountSearch from '@/Components/passengerAmountSearch/PassengerAmountSearch'
-import PassengerAmountTable from '@/Components/passengerAmountTable/PassengerAmountTable'
+import { PassengerAmountTable } from '@/Components/passengerAmountTable/PassengerAmountTable'
 import PassengerAmountModal from '@/Components/passengerAmountModal/PassengerAmountModal'
 import './PassengerAmountManage.less'
 
