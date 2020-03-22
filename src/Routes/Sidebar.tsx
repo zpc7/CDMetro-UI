@@ -70,12 +70,12 @@ class Sidebar extends Component<RouteComponentProps, State> {
               <span>线路配置</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="test">
+          {/* <Menu.Item key="test">
             <Link to='/test'>
               <BarChartOutlined />
               <span>Test</span>
             </Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider >
     )
