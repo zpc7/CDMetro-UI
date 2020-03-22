@@ -4,6 +4,8 @@ export interface LineConfigItem {
   id: number
   lineNumber: string
   lineColor: string
+  lineType: string
+  openDate: string
 }
 interface LineConfigResponse {
   total: number
