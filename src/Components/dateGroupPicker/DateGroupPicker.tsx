@@ -20,13 +20,13 @@ interface Props {
 const DateGroupPicker = ({ getDataByDateRange }: Props) => {
   const [radioGroupValue, setRadioGroupValue] = useState('recent')
   const [rangePickerValue, setRangePickerValue] = useState(dateRangeCompareBoard['recent'])
-  const handleRadioGroupChange = (e) => {
+  const handleRadioGroupChange = e => {
     const { value } = e.target
     setRadioGroupValue(value)
     setRangePickerValue(dateRangeCompareBoard[value])
     getDataByDateRange(dateRangeCompareBoard[value])
   }
-  const handleRangePickerChange = (dates) => {
+  const handleRangePickerChange = dates => {
     setRangePickerValue(dates)
     if (dates) {
       getDataByDateRange(dates)
