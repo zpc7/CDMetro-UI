@@ -31,6 +31,7 @@ module.exports = {
     'semi': ['error', 'never'],
     'react/display-name': ['off'],
     '@typescript-eslint/no-unused-vars': 'error',
-    '@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'none' } }]
+    '@typescript-eslint/member-delimiter-style': ['error', { 'multiline': { 'delimiter': 'none' } }],
+    'arrow-parens': ["error", "as-needed"]
   }
 }

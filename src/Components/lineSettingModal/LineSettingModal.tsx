@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import moment from 'moment'
-import { Modal, Form, DatePicker, Select, Input, InputNumber, Button } from 'antd'
+import { Modal, Form, DatePicker, Select, Input, Button } from 'antd'
 import './LineSettingModal.less'
 
 interface Props {
@@ -21,9 +21,6 @@ const LineSettingModal = ({ visible, editRecord, onCancel, onOk }: Props) => {
     console.log('editRecord:', editRecord)
     if (!_.isEmpty(editRecord)) {
       form.setFields([{
-        name: 'id',
-        value: editRecord.id
-      }, {
         name: 'lineNumber',
         value: editRecord.lineNumber
       }, {
@@ -68,9 +65,6 @@ const LineSettingModal = ({ visible, editRecord, onCancel, onOk }: Props) => {
       wrapClassName='COMPONENT-line-setting-modal'
     >
       <Form form={form} onFinish={handleFinish} labelCol={{ span: 6 }} wrapperCol={{ span: 10 }}>
-        <Form.Item label="线路 id" name="id" rules={[{ type: 'number', min: 1 }]}>
-          <InputNumber placeholder="建议指定标识度高的 id (可选)" style={{ width: '100%' }} />
-        </Form.Item>
         <Form.Item label="线路编号" name="lineNumber" rules={[{ required: true, message: '请填写线路编号!' }]}>
           <Input placeholder='例如：13号线，输入13即可' />
         </Form.Item>

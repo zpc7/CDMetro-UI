@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Table, Card, Button, Modal, Tag, Divider } from 'antd'
+import { Table, Card, message, Button, Modal, Tag, Divider } from 'antd'
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
-import { getLineConfig, LineConfigItem } from '@/Services'
+import { getLineConfig, LineConfigItem, addLineConfig, updateLineConfigbyId, deleteLineConfigbyId } from '@/Services'
 import LineSettingModal from '@/Components/lineSettingModal/LineSettingModal'
 
 interface State {
@@ -78,18 +78,27 @@ export default class LineSetting extends Component<{}, State> {
     const res = await getLineConfig()
     this.setState({ total: res.total, dataSource: res.list })
   }
-  handleEdit = (record) => {
+  handleEdit = record => {
     this.setState({ visible: true, editRecord: record })
   }
-  handleDelete = () => {
-    console.log('delete', 22222)
+  handleDelete = async id => {
+    await deleteLineConfigbyId(id)
+    message.success('删除线路成功')
+    this.getConfigList()
   }
   handleCancel = () => {
     this.setState({ visible: false, editRecord: null })
   }
-  handleOK = (fieldsValue, modalType, editRecord) => {
-
-    this.setState({ visible: false })
+  handleOK = async (fieldsValue, type, editRecord) => {
+    if (type === 'add') {
+      await addLineConfig(fieldsValue)
+      message.success('新增线路成功')
+    } else {
+      await updateLineConfigbyId(editRecord.id, fieldsValue)
+      message.success('编辑线路成功')
+    }
+    this.setState({ visible: false, editRecord: null })
+    this.getConfigList()
   }
   render() {
     const { total, visible, editRecord, dataSource } = this.state

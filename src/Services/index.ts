@@ -1,7 +1,7 @@
 import http from '@/Utils/http'
 
 export interface LineConfigItem {
-  id: number
+  id?: number // 兼容 新增和获取
   lineNumber: string
   lineColor: string
   lineType: string
@@ -62,7 +62,7 @@ export const getPassengerTraffic: (queryUrl: string) => Promise<PassengerTraffic
 // 删除客运量ById
 export const deletePassengerTrafficbyId: (id: number) => Promise<any> = id => http.delete(`/dayAmount/${id}`)
 // 新增客运量
-export const addPassengerTrafficbyId: (value: PassengerTrafficItem) => Promise<any> = value => http.post('/dayAmount', value)
+export const addPassengerTraffic: (value: PassengerTrafficItem) => Promise<any> = value => http.post('/dayAmount', value)
 // 更新客运量ById
 export const updatePassengerTrafficbyId: (id: number, value: PassengerTrafficItem) => Promise<any>
   = (id, value) => http.put(`/dayAmount/${id}`, value)
@@ -79,3 +79,11 @@ export const getAverageDataWithDateTypeByMonth: (month: string) => Promise<Avera
   = month => http.get(`/analysis/monthly/dateType/${month}`)
 // 获取最高纪录
 export const getHighestRecord: () => Promise<HighestRecordResponse> = () => http.get('analysis/highestRecord')
+// 新增线路信息
+export const addLineConfig: (value: LineConfigItem) => Promise<any> = value => http.post('/lineConfig', value)
+// 更新线路信息ById
+export const updateLineConfigbyId: (id: number, value: LineConfigItem) => Promise<any>
+  = (id, value) => http.put(`/lineConfig/${id}`, value)
+// 删除线路信息ById
+export const deleteLineConfigbyId: (id: number) => Promise<any> = id => http.delete(`/lineConfig/${id}`)
+

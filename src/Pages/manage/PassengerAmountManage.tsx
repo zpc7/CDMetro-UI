@@ -3,7 +3,7 @@ import {
   getLineConfig,
   getPassengerTraffic,
   deletePassengerTrafficbyId,
-  addPassengerTrafficbyId,
+  addPassengerTraffic,
   updatePassengerTrafficbyId,
   LineConfigItem,
   PassengerTrafficItem
@@ -56,7 +56,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   }
   handleOk = async (values, type, editRecord) => {
     if (type === 'add') {
-      await addPassengerTrafficbyId(values)
+      await addPassengerTraffic(values)
       message.success('新增成功')
     } else {
       await updatePassengerTrafficbyId(editRecord.id, values)
@@ -68,14 +68,14 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   handleCancel = () => {
     this.setState({ visible: false, editRecord: null })
   }
-  handleEdit = (editRecord) => {
+  handleEdit = editRecord => {
     this.setState({ editRecord, visible: true })
   }
   handlePaginationChange = (page, pageSize) => {
     const { searchCondition } = this.state
     this.setState({ searchCondition: { ...searchCondition, page, pageSize } }, this.getDataList)
   }
-  handleDelete = async (id) => {
+  handleDelete = async id => {
     await deletePassengerTrafficbyId(id)
     message.success('删除成功')
     this.getDataList()
