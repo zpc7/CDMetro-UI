@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import { Table, Card, Button, Modal, Tag, Divider } from 'antd'
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { getLineConfig, LineConfigItem } from '@/Services'
+import LineSettingModal from '@/Components/lineSettingModal/LineSettingModal'
 
 interface State {
   total: number
   dataSource: LineConfigItem[]
-  visiable: boolean
+  visible: boolean
+  editRecord: any
 }
 const showDeleteConfirm = (lineNumber, id, onDelete) => {
   Modal.confirm({
@@ -20,6 +22,11 @@ const showDeleteConfirm = (lineNumber, id, onDelete) => {
   })
 }
 const makeColumns = (onEdit, onDelete) => ([
+  {
+    title: '线路 id',
+    dataIndex: 'id',
+    key: 'id',
+  },
   {
     title: '线路编号',
     dataIndex: 'lineNumber',
@@ -58,10 +65,11 @@ export default class LineSetting extends Component<{}, State> {
   state = {
     total: 0,
     dataSource: [],
-    visiable: false
+    visible: false,
+    editRecord: null
   }
   handleAdd = () => {
-    this.setState({ visiable: true })
+    this.setState({ visible: true })
   }
   componentDidMount() {
     this.getConfigList()
@@ -70,14 +78,21 @@ export default class LineSetting extends Component<{}, State> {
     const res = await getLineConfig()
     this.setState({ total: res.total, dataSource: res.list })
   }
-  handleEdit = () => {
-    console.log('edit', 1111)
+  handleEdit = (record) => {
+    this.setState({ visible: true, editRecord: record })
   }
   handleDelete = () => {
     console.log('delete', 22222)
   }
+  handleCancel = () => {
+    this.setState({ visible: false, editRecord: null })
+  }
+  handleOK = (fieldsValue, modalType, editRecord) => {
+
+    this.setState({ visible: false })
+  }
   render() {
-    const { total, dataSource } = this.state
+    const { total, visible, editRecord, dataSource } = this.state
     const columns = makeColumns(this.handleEdit, this.handleDelete)
     return (
       <div>
@@ -86,6 +101,11 @@ export default class LineSetting extends Component<{}, State> {
           extra={<Button type="primary" onClick={this.handleAdd} icon={<PlusOutlined />}> 新增线路 </Button>}>
           <Table rowKey="id" columns={columns} dataSource={dataSource} />
         </Card>
+        <LineSettingModal
+          visible={visible}
+          editRecord={editRecord}
+          onCancel={this.handleCancel}
+          onOk={this.handleOK} />
       </div>
     )
   }
