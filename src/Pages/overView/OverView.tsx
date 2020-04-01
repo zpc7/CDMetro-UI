@@ -67,8 +67,8 @@ export default class OverView extends Component<{}, State> {
     this.setState({ lineConfigList: lineConfigResponse.list })
     await this.getDataByDateRange()
     await this.getLastestData()
-    await this.getAverageData(moment().format('YYYY-MM-DD'))
     await this.getHighestRecordData()
+    await this.getAverageData(moment().format('YYYY-MM-DD'))
   }
   getDataByDateRange = async (dates = [moment().subtract(30, 'days'), moment()]) => {
     const dateStrings = dates.map(i => i.format('YYYY-MM-DD'))
