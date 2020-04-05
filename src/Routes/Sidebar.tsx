@@ -5,7 +5,7 @@ import { BarChartOutlined, UserOutlined, ToolOutlined } from '@ant-design/icons'
 import { RouteComponentProps } from 'react-router'
 
 const { Sider } = Layout
-import logoImg from '@/Static/images/logo.png'
+import logoImg from '@/Static/images/logo_white.png'
 
 interface State {
   collapsed: boolean
@@ -45,7 +45,7 @@ class Sidebar extends Component<RouteComponentProps, State> {
     return (
       <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
         <div className="logo">
-          <img src={logoImg} />
+          <img src={logoImg} style={{ width: collapsed ? '100%' : '73%' }} />
         </div>
         <Menu
           theme="dark"
