@@ -102,7 +102,8 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           <div className="table-toolbar">
             <div className="title">
               <span className='desc'>详细数据</span>
-              <Tooltip title="2016-08-24 前的客运数据不完整, 故未收录此前数据">
+              <span className='budge'>{total}</span>
+              <Tooltip className='tips' title='2016-08-24 前的客运数据不完整, 故未收录此前数据'>
                 <InfoCircleOutlined />
               </Tooltip>
             </div>
