@@ -96,16 +96,17 @@ export const PassengerAmountTable = (props: Props) => {
   const { dataSource, lineConfig, onPaginationChange, total } = props
   const columns = makeColumns(props)
   const data = formateData(dataSource, lineConfig)
+  const onTableChange = pagination => {
+    onPaginationChange(pagination.current, pagination.pageSize)
+  }
   return (
     <div className="COMPONENT-passenger-amount-table">
       <Table
         rowKey={record => record.id}
         columns={columns}
         dataSource={data}
-        pagination={{
-          total,
-          onChange: onPaginationChange
-        }}
+        onChange={onTableChange}
+        pagination={{ total }}
       />
     </div>
   )
