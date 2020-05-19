@@ -89,11 +89,12 @@ interface Props {
   lineConfig: LineConfigItem[]
   onPaginationChange: (page: number, pageSize?: number) => void
   total: number
+  loading: boolean
   onEdit: Function
   onDelete: Function
 }
 export const PassengerAmountTable = (props: Props) => {
-  const { dataSource, lineConfig, onPaginationChange, total } = props
+  const { dataSource, lineConfig, onPaginationChange, total, loading } = props
   const columns = makeColumns(props)
   const data = formateData(dataSource, lineConfig)
   const onTableChange = pagination => {
@@ -104,6 +105,7 @@ export const PassengerAmountTable = (props: Props) => {
       <Table
         rowKey={record => record.id}
         columns={columns}
+        loading={loading}
         dataSource={data}
         onChange={onTableChange}
         pagination={{ total }}

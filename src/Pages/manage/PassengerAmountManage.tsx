@@ -25,6 +25,7 @@ interface SearchCondition {
 interface State {
   total: number
   visible: boolean
+  loading: boolean
   searchCondition: SearchCondition
   dataSource: PassengerTrafficItem[]
   lineConfig: LineConfigItem[]
@@ -44,6 +45,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     dataSource: [],
     lineConfig: [],
     editRecord: null,
+    loading: false
   };
 
   async componentDidMount() {
@@ -84,9 +86,14 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     const { page, pageSize, dateRange, dateType } = this.state.searchCondition
     const dateRangeUrl = dateRange ? `&startDate=${dateRange[0]}&endDate=${dateRange[1]}` : ''
     const dateTypeUrl = dateType ? `&dateType=${dateType}` : ''
-    const res = await getPassengerTraffic(`page=${page}&pageSize=${pageSize}${dateRangeUrl}${dateTypeUrl}`)
-    this.setState({ dataSource: res.list, total: res.total })
-    message.success('列表更新成功')
+    try {
+      this.setState({ loading: true })
+      const res = await getPassengerTraffic(`page=${page}&pageSize=${pageSize}${dateRangeUrl}${dateTypeUrl}`)
+      this.setState({ dataSource: res.list, total: res.total })
+      message.success('列表更新成功')
+    } finally {
+      this.setState({ loading: false })
+    }
   }
   handleSearch = ({ dateRange, dateType }) => {
     const { searchCondition } = this.state
@@ -94,7 +101,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
   }
 
   render() {
-    const { dataSource, lineConfig, visible, total, editRecord } = this.state
+    const { dataSource, lineConfig, visible, total, editRecord, loading } = this.state
     return (
       <section className="PAGE-passenger-amount-manage">
         <PassengerAmountSearch onSearch={this.handleSearch} />
@@ -119,6 +126,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
           </div>
           <PassengerAmountTable
             total={total}
+            loading={loading}
             dataSource={dataSource}
             lineConfig={lineConfig}
             onEdit={this.handleEdit}
