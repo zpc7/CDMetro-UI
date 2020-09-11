@@ -99,6 +99,10 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
     const { searchCondition } = this.state
     this.setState({ searchCondition: { ...searchCondition, dateRange, dateType } }, this.getDataList)
   }
+  // 全屏
+  handleFullScreen = () => {
+    document.getElementsByTagName('body')[0].requestFullscreen()
+  }
 
   render() {
     const { dataSource, lineConfig, visible, total, editRecord, loading } = this.state
@@ -119,7 +123,7 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
                 新增
               </Button>
               <div className='extra-operation'>
-                <FullscreenOutlined />
+                <FullscreenOutlined onClick={this.handleFullScreen} />
                 <ReloadOutlined onClick={this.getDataList} />
               </div>
             </div>
