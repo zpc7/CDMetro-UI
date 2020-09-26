@@ -4,6 +4,7 @@ import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { getLineConfig, addLineConfig, updateLineConfigbyId, deleteLineConfigbyId } from '@/Services'
 import { LineConfigItem} from '@/Services/interface'
 import LineSettingModal from '@/Components/lineSettingModal/LineSettingModal'
+import moment from 'moment'
 
 interface State {
   total: number
@@ -48,6 +49,7 @@ const makeColumns = (onEdit, onDelete) => ([
     title: '开通日期',
     dataIndex: 'openDate',
     key: 'openDate',
+    sorter: (firstEl, secondEl) => moment(firstEl.openDate).isBefore(secondEl.openDate) ? -1 : 1
   },
   {
     title: 'Action',
