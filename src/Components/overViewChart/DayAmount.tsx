@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
-import { LineConfigItem, PassengerTrafficItem } from '@/Services'
+import { LineConfigItem, PassengerTrafficItem } from '@/Services/interface'
 
 const makeOption = (lineConfig, dayAmount) => {
   const lineColor = lineConfig.map(item => item.lineColor)

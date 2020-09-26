@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Table, Card, message, Button, Modal, Tag, Divider } from 'antd'
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
-import { getLineConfig, LineConfigItem, addLineConfig, updateLineConfigbyId, deleteLineConfigbyId } from '@/Services'
+import { getLineConfig, addLineConfig, updateLineConfigbyId, deleteLineConfigbyId } from '@/Services'
+import { LineConfigItem} from '@/Services/interface'
 import LineSettingModal from '@/Components/lineSettingModal/LineSettingModal'
 
 interface State {

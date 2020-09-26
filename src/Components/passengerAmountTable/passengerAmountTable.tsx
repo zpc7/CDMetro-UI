@@ -2,7 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 import { Table, Divider, Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { LineConfigItem, PassengerTrafficItem } from '@/Services'
+import { LineConfigItem, PassengerTrafficItem } from '@/Services/interface'
 
 // 日期类型简写-全称对照表
 export const dateTypeCompareBoard = {

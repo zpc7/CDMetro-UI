@@ -5,9 +5,8 @@ import {
   deletePassengerTrafficbyId,
   addPassengerTraffic,
   updatePassengerTrafficbyId,
-  LineConfigItem,
-  PassengerTrafficItem
 } from '@/Services'
+import { LineConfigItem, PassengerTrafficItem } from '@/Services/interface'
 
 import { Button, Tooltip, message } from 'antd'
 import { PlusOutlined, FullscreenOutlined, ReloadOutlined, InfoCircleOutlined } from '@ant-design/icons'

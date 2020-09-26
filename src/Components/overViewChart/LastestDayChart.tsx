@@ -22,7 +22,7 @@ const LastestDayChart = ({ lastestData, lineConfigList }: any) => {
       title={`${lastestData.date} 客运量`}
       tabList={tabList}
       activeTabKey={tabKey}
-      className='COMPONENT-momthly-chart'
+      className='COMPONENT-monthly-chart'
       onTabChange={setTabKey}
     >
       {contentList[tabKey]}

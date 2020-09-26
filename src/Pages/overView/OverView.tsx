@@ -8,12 +8,14 @@ import {
   getAverageDataWithDateTypeByMonth,
   getAverageDataByMonth,
   getHighestRecord,
+} from '@/Services'
+import {
   LineConfigItem,
   PassengerTrafficItem,
   HighestRecordResponse,
   AverageMonthlyDataResponse,
   AverageMonthlyDataWithDateTypeResponse
-} from '@/Services'
+} from '@/Services/interface'
 import LastestDayChart from '@/Components/overViewChart/LastestDayChart'
 import DateGroupPicker from '@/Components/dateGroupPicker/DateGroupPicker'
 import DayAmountChart from '@/Components/overViewChart/DayAmount'

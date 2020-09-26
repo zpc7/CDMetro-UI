@@ -3,7 +3,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import { Modal, Form, DatePicker, Select, Input, Row, Col, Divider, Button } from 'antd'
 import './PassengerAmountModal.less'
-import { LineConfigItem } from '@/Services'
+import { LineConfigItem } from '@/Services/interface'
 
 interface Props {
   visible: boolean
