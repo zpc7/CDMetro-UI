@@ -9,7 +9,7 @@ import {
 import { LineConfigItem, PassengerTrafficItem } from '@/Services/interface'
 
 import { Button, Tooltip, message } from 'antd'
-import { PlusOutlined, FullscreenOutlined, ReloadOutlined, InfoCircleOutlined } from '@ant-design/icons'
+import { PlusOutlined, FullscreenOutlined, ReloadOutlined, InfoCircleOutlined, SoundOutlined } from '@ant-design/icons'
 import PassengerAmountSearch from '@/Components/passengerAmountSearch/PassengerAmountSearch'
 import { PassengerAmountTable } from '@/Components/passengerAmountTable/PassengerAmountTable'
 import PassengerAmountModal from '@/Components/passengerAmountModal/PassengerAmountModal'
@@ -115,6 +115,9 @@ export default class PassengerAmountManage extends React.Component<{}, State> {
               <span className='budge'>{total}</span>
               <Tooltip className='tips' title='2016-08-24 前的客运数据不完整, 故未收录此前数据'>
                 <InfoCircleOutlined />
+              </Tooltip>
+              <Tooltip className='tips' title='博主 @成都地铁运营 于 2020-10-10 开始更新"有轨电车"客运量, 并纳入总客运量统计, 此日期前客运数据未能收录'>
+                <SoundOutlined />
               </Tooltip>
             </div>
             <div className="option">

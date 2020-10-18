@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Table, Card, message, Button, Modal, Tag, Divider } from 'antd'
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
 import { getLineConfig, addLineConfig, updateLineConfigbyId, deleteLineConfigbyId } from '@/Services'
-import { LineConfigItem} from '@/Services/interface'
+import { LineConfigItem } from '@/Services/interface'
 import LineSettingModal from '@/Components/lineSettingModal/LineSettingModal'
 import moment from 'moment'
 
@@ -12,6 +12,11 @@ interface State {
   visible: boolean
   editRecord: any
 }
+const lineTypeCompareBoard = {
+  Metro: '地铁',
+  Tram: '有轨电车',
+}
+
 const showDeleteConfirm = (lineNumber, id, onDelete) => {
   Modal.confirm({
     title: `确定删除线路 ${lineNumber} 号线?`,
@@ -41,9 +46,16 @@ const makeColumns = (onEdit, onDelete) => ([
     render: (text: string, record: LineConfigItem) => (<Tag color={text}> {record.lineNumber}号线 </Tag>)
   },
   {
-    title: '线路类型',
+    title: '轨道类型',
     dataIndex: 'lineType',
     key: 'lineType',
+    render: (type: string) => lineTypeCompareBoard[type]
+  },
+  {
+    title: '车辆编组',
+    dataIndex: 'metroFormation',
+    key: 'metroFormation',
+    render: text => text || '-'
   },
   {
     title: '开通日期',
