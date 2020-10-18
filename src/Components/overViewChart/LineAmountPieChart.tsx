@@ -28,6 +28,8 @@ const makeOption = (data, lineConfig) => {
       {
         name: '客运量',
         type: 'pie',
+        left: 80,
+        top: 20,
         radius: ['45%', '80%'],
         label: {
           formatter: '  {styleB|{b}：}{per|{d}%}  ',
