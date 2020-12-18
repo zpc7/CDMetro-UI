@@ -1,5 +1,6 @@
 import React from 'react'
 import { Row, Col, Tag } from 'antd'
+import { StarTwoTone } from '@ant-design/icons'
 import CountUp from 'react-countup'
 import _ from 'lodash'
 import './HighestRecord.less'
@@ -12,9 +13,8 @@ const HighestRecord = ({ data, lineConfigList: lineConfig }: any) => {
           <div className="item">
             <div className="title">
               <div>单日最高</div>
-              <div>
-                <Tag color="#108ee9">Highest</Tag>
-              </div>
+              <Tag color="#108ee9">Highest</Tag>
+              <StarTwoTone twoToneColor="#108ee9" style={{ fontSize: '18px' }} />
             </div>
             <div className="desc">
               <div>{data.maxDate}</div>

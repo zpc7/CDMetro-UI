@@ -123,7 +123,7 @@ export default class LineSetting extends Component<{}, State> {
         <Card
           title={`已开通运营 ${total} 条线路`}
           extra={<Button type="primary" onClick={this.handleAdd} icon={<PlusOutlined />}> 新增线路 </Button>}>
-          <Table rowKey="id" columns={columns} dataSource={dataSource} />
+          <Table rowKey="id" columns={columns} dataSource={dataSource} pagination={false} />
         </Card>
         <LineSettingModal
           visible={visible}

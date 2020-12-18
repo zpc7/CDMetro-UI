@@ -63,7 +63,7 @@ const LineAmountBarChart = ({ data, lineConfigList }: Props) => {
   const option = makeOption(data, lineConfigList)
   const showLoading = _.isEmpty(data) ? true : false
   return <div className="COMPONENT-line-amount-bar-chart">
-    <ReactEcharts option={option} showLoading={showLoading} />
+    <ReactEcharts option={option} showLoading={showLoading} style={{ height: '380px' }} />
   </div>
 
 }
