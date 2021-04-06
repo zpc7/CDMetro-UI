@@ -3,8 +3,8 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "module": "esnext",
-    "target": "es5",
+    "module": "ESNext",
+    "target": "ESNext",
     "sourceMap": true,
     "noImplicitAny": false,
     "allowJs": true,
@@ -28,6 +28,6 @@
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "webpack.config.js"
   ]
 }
