@@ -17,3 +17,5 @@
 前端: `TypeScript` + `React` + `antd`  
 后端: `eggjs` + `sequelize`  
 数据库: `mysql`
+
+![Visualization of the codebase](./diagram.svg)
